@@ -1,14 +1,26 @@
 import { Formik } from 'formik';
+
 import { Button } from '../../../../common/Button/Button';
 import { Input } from '../../../../common/Input/Input';
+
+import {
+  SEARCH_BAR_INPUT_LABEL_TEXT,
+  SEARCH_BAR_INPUT_PLACEHOLDER_TEXT,
+  SEARCH_BUTTON_TEXT,
+} from '../../../../constants';
+
 import './SearchBar.scss';
 
 interface ISearchBarProps {
   search: (value: string) => void;
 }
 
+interface ISearchValues {
+  searchInput: string;
+}
+
 export function SearchBar({ search }: ISearchBarProps) {
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: ISearchValues) => {
     search(values.searchInput);
   };
   return (
@@ -17,13 +29,13 @@ export function SearchBar({ search }: ISearchBarProps) {
         <form className='search-bar-wrapper' onSubmit={props.handleSubmit}>
           <Input
             name='searchInput'
-            labelText='Search course'
-            placeholdetText='Enter course name...'
+            labelText={SEARCH_BAR_INPUT_LABEL_TEXT}
+            placeholdetText={SEARCH_BAR_INPUT_PLACEHOLDER_TEXT}
             className='search-bar-wrapper__input'
           />
           <Button
             className='search-bar-wrapper__button'
-            buttonText='Search'
+            buttonText={SEARCH_BUTTON_TEXT}
             buttonType='submit'
           />
         </form>

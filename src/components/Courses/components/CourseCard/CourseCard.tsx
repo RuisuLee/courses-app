@@ -1,16 +1,19 @@
 import { Button } from '../../../../common/Button/Button';
+
+import {
+  COURSE_CARD_AUTHORS,
+  COURSE_CARD_CREATED,
+  COURSE_CARD_DURATION,
+  SHOW_COURSE_BUTTON_TEXT,
+} from '../../../../constants';
+
 import { getAuthors } from '../../../../helpers/authors';
 import { getFormattedDate } from '../../../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../../../helpers/pipeDuration';
-import './CourseCard.scss';
 
-interface ICourseCardProps {
-  title: string;
-  description: string;
-  authors: Array<string>;
-  duration: number;
-  creationDate: string;
-}
+import { ICourse } from '../../../../models/Course';
+
+import './CourseCard.scss';
 
 export function CourseCard({
   title,
@@ -18,7 +21,7 @@ export function CourseCard({
   authors,
   duration,
   creationDate,
-}: ICourseCardProps) {
+}: ICourse) {
   const showCourse = () => {};
   return (
     <div className='course-card'>
@@ -29,21 +32,21 @@ export function CourseCard({
       <section className='course-card__additional-info'>
         <div className='course-card__additional-info-content'>
           <span className='course-card__authors'>
-            <b>Authors: </b>
+            <b>{COURSE_CARD_AUTHORS}</b>
             {getAuthors(authors)}
           </span>
           <span>
-            <b>Duration: </b>
+            <b>{COURSE_CARD_DURATION}</b>
             {getFormattedDuration(duration)}
           </span>
           <span>
-            <b>Created: </b>
+            <b>{COURSE_CARD_CREATED}</b>
             {getFormattedDate(creationDate)}
           </span>
         </div>
         <Button
           className='course-card__additional-info-button'
-          buttonText='Show course'
+          buttonText={SHOW_COURSE_BUTTON_TEXT}
           buttonType='button'
           onClick={showCourse}
         />

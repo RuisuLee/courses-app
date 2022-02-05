@@ -1,10 +1,11 @@
-import { MouseEvent } from 'react';
+import { ButtonHTMLAttributes } from 'react';
 
-interface IButtonProps {
+import './Button.scss';
+
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   buttonText: string;
   buttonType: 'button' | 'submit' | 'reset' | undefined;
   className?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const Button = ({
@@ -12,8 +13,11 @@ export const Button = ({
   className,
   buttonType,
   onClick,
-}: IButtonProps) => (
-  <button className={className} onClick={onClick} type={buttonType}>
-    {buttonText}
-  </button>
-);
+}: IButtonProps) => {
+  const style = `general-button ${className}`;
+  return (
+    <button className={style} onClick={onClick} type={buttonType}>
+      {buttonText}
+    </button>
+  );
+};

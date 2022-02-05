@@ -1,6 +1,8 @@
 import { useField } from 'formik';
 import { ChangeEvent } from 'react';
 
+import './Input.scss';
+
 interface IInputProps {
   name: string;
   labelText: string;
@@ -25,6 +27,7 @@ export function Input({
     <div className={className}>
       <label htmlFor={name}>{labelText}</label>
       <input
+        className='general-input'
         type='text'
         id={name}
         name={name}

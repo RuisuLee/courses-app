@@ -40,3 +40,16 @@ export const mockedAuthorsList = [
     name: 'Valentina Larina',
   },
 ];
+
+export const LOGOUT_BUTTON_TEXT = 'Logout';
+
+export const ADD_NEW_COURSE_BUTTON_TEXT = 'Add new course';
+
+export const SEARCH_BAR_INPUT_LABEL_TEXT = 'Search course';
+export const SEARCH_BAR_INPUT_PLACEHOLDER_TEXT = 'Enter course name...';
+export const SEARCH_BUTTON_TEXT = 'Search';
+
+export const COURSE_CARD_AUTHORS = 'Authors: ';
+export const COURSE_CARD_DURATION = 'Duration: ';
+export const COURSE_CARD_CREATED = 'Created: ';
+export const SHOW_COURSE_BUTTON_TEXT = 'Show course';

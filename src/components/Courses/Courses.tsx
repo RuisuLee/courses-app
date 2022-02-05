@@ -1,9 +1,13 @@
 import { useState } from 'react';
+
 import { Button } from '../../common/Button/Button';
-import { mockedCoursesList } from '../../constants';
-import { ICourse } from '../../models/Course';
 import { CourseCard } from './components/CourseCard/CourseCard';
 import { SearchBar } from './components/SearchBar/SearchBar';
+
+import { ADD_NEW_COURSE_BUTTON_TEXT, mockedCoursesList } from '../../constants';
+import { isSubStrInString } from '../../helpers/common';
+import { ICourse } from '../../models/Course';
+
 import './Courses.scss';
 
 interface ICoursesProps {
@@ -21,8 +25,8 @@ export function Courses({ addNewCourse }: ICoursesProps) {
 
     const findedCourses = mockedCoursesList.filter(
       (course) =>
-        course.id.toLowerCase().indexOf(value.toLowerCase()) > -1 ||
-        course.title.toLowerCase().indexOf(value.toLowerCase()) > -1
+        isSubStrInString(course.id, value) ||
+        isSubStrInString(course.title, value)
     );
 
     setCourses(findedCourses);
@@ -33,7 +37,7 @@ export function Courses({ addNewCourse }: ICoursesProps) {
         <SearchBar search={onSearch} />
         <Button
           className='search-bar__button'
-          buttonText='Add new course'
+          buttonText={ADD_NEW_COURSE_BUTTON_TEXT}
           buttonType='button'
           onClick={addNewCourse}
         />
@@ -42,6 +46,7 @@ export function Courses({ addNewCourse }: ICoursesProps) {
         {courses.map((course) => (
           <CourseCard
             key={course.id}
+            id={course.id}
             title={course.title}
             description={course.description}
             duration={course.duration}
