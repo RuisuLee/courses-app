@@ -7,7 +7,7 @@ import { Header } from './components/Header/Header';
 import './App.scss';
 
 function App() {
-  const [isCreateCourse, setIsCreateCourse] = useState(false);
+  const [isCreateCourse, setIsCreateCourse] = useState(true);
 
   const onAddNewCourse = () => {
     setIsCreateCourse(true);

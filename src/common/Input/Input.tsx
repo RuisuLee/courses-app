@@ -25,7 +25,9 @@ export function Input({
 
   return (
     <div className={className}>
-      <label htmlFor={name}>{labelText}</label>
+      <label htmlFor={name} className='general-label'>
+        {labelText}
+      </label>
       <input
         className='general-input'
         type='text'
