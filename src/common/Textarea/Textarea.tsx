@@ -1,39 +1,36 @@
 import { useField } from 'formik';
-import { InputHTMLAttributes } from 'react';
+import { ChangeEvent } from 'react';
 
-import './Input.scss';
-
-interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface ITextareaProps {
   name: string;
   labelText: string;
   placeholdetText: string;
   className?: string;
 }
 
-export function Input({
+export function Textarea({
   name,
   labelText,
   placeholdetText,
   className,
-  type,
-}: IInputProps) {
+}: ITextareaProps) {
   const [field] = useField<string>(name);
   const { value, onChange } = field;
 
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    onChange({ target: { value: event.target.value, name } });
+  };
+
   return (
     <div className={className}>
-      <label htmlFor={name} className='general-label'>
-        {labelText}
-      </label>
-      <input
-        className='general-input'
-        type={type}
+      <label htmlFor={name}>{labelText}</label>
+      <textarea
         id={name}
         name={name}
         value={value}
         placeholder={placeholdetText}
-        onChange={onChange}
-      ></input>
+        onChange={handleChange}
+      ></textarea>
     </div>
   );
 }

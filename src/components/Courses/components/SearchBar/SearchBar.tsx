@@ -32,6 +32,7 @@ export function SearchBar({ search }: ISearchBarProps) {
             labelText={SEARCH_BAR_INPUT_LABEL_TEXT}
             placeholdetText={SEARCH_BAR_INPUT_PLACEHOLDER_TEXT}
             className='search-bar-wrapper__input'
+            type='text'
           />
           <Button
             className='search-bar-wrapper__button'

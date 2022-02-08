@@ -7,17 +7,21 @@ import { Header } from './components/Header/Header';
 import './App.scss';
 
 function App() {
-  const [isCreateCourse, setIsCreateCourse] = useState(true);
+  const [isCreateCourse, setIsCreateCourse] = useState(false);
 
   const onAddNewCourse = () => {
     setIsCreateCourse(true);
+  };
+
+  const onCreateNewCourse = () => {
+    setIsCreateCourse(false);
   };
 
   return (
     <div className='App'>
       <Header />
       {isCreateCourse ? (
-        <CreateCourse />
+        <CreateCourse createNewCourse={onCreateNewCourse} />
       ) : (
         <Courses addNewCourse={onAddNewCourse} />
       )}

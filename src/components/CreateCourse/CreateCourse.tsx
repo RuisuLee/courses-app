@@ -1,112 +1,71 @@
 import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { ICourse } from '../../models/Course';
+import { v4 as uuidv4 } from 'uuid';
 
-import { Button } from '../../common/Button/Button';
-import { Input } from '../../common/Input/Input';
 import {
-  ADD_AUTHOR_BUTTON_TEXT,
-  COURSE_AUTHORS_LIST_IS_EMPTY,
-  COURSE_AUTHORS_LIST_TITLE,
-  CREATE_AUTHOR_BUTTON_TEXT,
-  CREATE_COURSE_ADD_AUTHOR_LABEL_TEXT,
-  CREATE_COURSE_ADD_AUTHOR_PLACEHOLDER_TEXT,
-  CREATE_COURSE_ADD_AUTHOR_TITLE,
-  CREATE_COURSE_AUTHORS_LIST_TITLE,
-  CREATE_COURSE_BUTTON_TEXT,
-  CREATE_COURSE_DESCRIPTION_LABEL_TEXT,
-  CREATE_COURSE_DESCRIPTION_PLACEHOLDER_TEXT,
-  CREATE_COURSE_DURATION_PLACEHOLDER_TEXT,
-  CREATE_COURSE_DURATION_TITLE,
-  CREATE_COURSE_TITLE_LABEL_TEXT,
-  CREATE_COURSE_TITLE_PLACEHOLDER_TEXT,
-} from '../../constants';
-
-import { getFormattedDuration } from '../../helpers/pipeDuration';
+  CreateCourseForm,
+  ICreateCourseFormValues,
+} from './components/CreateCourseForm/CreateCourseForm';
 
 import './CreateCourse.scss';
+import { mockedCoursesList } from '../../constants';
 
-export function CreateCourse() {
-  const onSubmit = () => {};
+const CreateCourseFormSchema = Yup.object().shape({
+  titleInput: Yup.string()
+    .min(2, 'Title should contain at least 2 symbols!')
+    .required('Title field is required!'),
+  description: Yup.string()
+    .min(2, 'Descripion should contain at least 2 symbols!')
+    .required('Description field is required!'),
+  duration: Yup.number()
+    .min(1, 'Duration should be more than 0!')
+    .required('Duration field is required!'),
+  authors: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required(),
+        id: Yup.string().required(),
+      })
+    )
+    .min(1, 'Course authors list should contain at least one author!'),
+});
+
+const init: ICreateCourseFormValues = {
+  titleInput: '',
+  description: '',
+  duration: '0',
+  authors: [],
+};
+
+interface ICreateCourseProps {
+  createNewCourse: () => void;
+}
+
+export function CreateCourse({ createNewCourse }: ICreateCourseProps) {
+  const onSubmit = (inputCourse: ICreateCourseFormValues) => {
+    console.log(inputCourse);
+    const course: ICourse = {
+      id: uuidv4(),
+      creationDate: new Date().toLocaleDateString('en-US'),
+      title: inputCourse.titleInput,
+      description: inputCourse.description,
+      duration: parseInt(inputCourse.duration),
+      authors: inputCourse.authors.map((author) => {
+        return author.id;
+      }),
+    };
+    mockedCoursesList.push(course);
+    createNewCourse();
+  };
+
   return (
-    <>
-      <Formik initialValues={{}} onSubmit={onSubmit}>
-        {(props) => (
-          <form className='create-course-form' onSubmit={props.handleSubmit}>
-            <section>
-              <div>
-                <div className='title'>
-                  <Input
-                    name='titleInput'
-                    labelText={CREATE_COURSE_TITLE_LABEL_TEXT}
-                    placeholdetText={CREATE_COURSE_TITLE_PLACEHOLDER_TEXT}
-                  />
-                  <Button
-                    buttonText={CREATE_COURSE_BUTTON_TEXT}
-                    buttonType='submit'
-                  />
-                </div>
-                <div className='description'>
-                  <label>{CREATE_COURSE_DESCRIPTION_LABEL_TEXT}</label>
-                  <textarea
-                    placeholder={CREATE_COURSE_DESCRIPTION_PLACEHOLDER_TEXT}
-                  ></textarea>
-                </div>
-              </div>
-            </section>
-            <section className='course-additional-info'>
-              <div className='course-additional-info--left'>
-                <div className='course-additional-info__add-author'>
-                  <h3 className='course-additional-info__add-author-title'>
-                    {CREATE_COURSE_ADD_AUTHOR_TITLE}
-                  </h3>
-                  <Input
-                    name='authorName'
-                    className='course-additional-info__input'
-                    labelText={CREATE_COURSE_ADD_AUTHOR_LABEL_TEXT}
-                    placeholdetText={CREATE_COURSE_ADD_AUTHOR_PLACEHOLDER_TEXT}
-                  />
-                  <Button
-                    className='course-additional-info__button'
-                    buttonText={CREATE_AUTHOR_BUTTON_TEXT}
-                    buttonType='button'
-                  />
-                </div>
-                <div className='course-additional-info__duration'>
-                  <h3 className='course-additional-info__duration-title'>
-                    {CREATE_COURSE_DURATION_TITLE}
-                  </h3>
-                  <Input
-                    name='duration'
-                    className='course-additional-info__input'
-                    labelText={CREATE_COURSE_DURATION_TITLE}
-                    placeholdetText={CREATE_COURSE_DURATION_PLACEHOLDER_TEXT}
-                  />
-                  <p>
-                    {CREATE_COURSE_DURATION_TITLE}: {getFormattedDuration(60)}
-                  </p>
-                </div>
-              </div>
-              <div className='course-additional-info--right'>
-                <div className='course-additional-info__author-list'>
-                  <h3>{CREATE_COURSE_AUTHORS_LIST_TITLE}</h3>
-                  <div>
-                    <div className='course-additional-info__author-list-item'>
-                      <span>Hardcoded name....</span>{' '}
-                      <Button
-                        buttonText={ADD_AUTHOR_BUTTON_TEXT}
-                        buttonType='button'
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className='course-additional-info__author-list'>
-                  <h3>{COURSE_AUTHORS_LIST_TITLE}</h3>
-                  <div>{COURSE_AUTHORS_LIST_IS_EMPTY}</div>
-                </div>
-              </div>
-            </section>
-          </form>
-        )}
-      </Formik>
-    </>
+    <Formik
+      initialValues={init}
+      onSubmit={onSubmit}
+      validationSchema={CreateCourseFormSchema}
+    >
+      {(props) => <CreateCourseForm {...props} />}
+    </Formik>
   );
 }

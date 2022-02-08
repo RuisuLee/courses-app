@@ -70,3 +70,4 @@ export const CREATE_COURSE_AUTHORS_LIST_TITLE = 'Authors';
 export const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
 export const COURSE_AUTHORS_LIST_TITLE = 'Course authors';
 export const COURSE_AUTHORS_LIST_IS_EMPTY = 'Author list is empty';
+export const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';

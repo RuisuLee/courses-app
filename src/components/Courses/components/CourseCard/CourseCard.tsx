@@ -25,7 +25,7 @@ export function CourseCard({
   const showCourse = () => {};
   return (
     <div className='course-card'>
-      <section>
+      <section className='course-card__title-section'>
         <h2>{title}</h2>
         <p>{description}</p>
       </section>
