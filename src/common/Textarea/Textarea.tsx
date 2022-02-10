@@ -17,10 +17,6 @@ export function Textarea({
   const [field] = useField<string>(name);
   const { value, onChange } = field;
 
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    onChange({ target: { value: event.target.value, name } });
-  };
-
   return (
     <div className={className}>
       <label htmlFor={name}>{labelText}</label>
@@ -29,7 +25,7 @@ export function Textarea({
         name={name}
         value={value}
         placeholder={placeholdetText}
-        onChange={handleChange}
+        onChange={onChange}
       ></textarea>
     </div>
   );

@@ -44,15 +44,7 @@ export function Courses({ addNewCourse }: ICoursesProps) {
       </nav>
       <main>
         {courses.map((course) => (
-          <CourseCard
-            key={course.id}
-            id={course.id}
-            title={course.title}
-            description={course.description}
-            duration={course.duration}
-            authors={course.authors}
-            creationDate={course.creationDate}
-          />
+          <CourseCard key={course.id} course={course} />
         ))}
       </main>
     </section>

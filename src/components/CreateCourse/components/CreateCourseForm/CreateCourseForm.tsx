@@ -212,16 +212,16 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
           <div className='course-additional-info__author-list'>
             <h3>{COURSE_AUTHORS_LIST_TITLE}</h3>
             {courseAuthors.length > 0 ? (
-              courseAuthors.map((a, index) => (
+              courseAuthors.map((author, index) => (
                 <div
-                  key={index}
+                  key={author.id}
                   className='course-additional-info__author-list-item'
                 >
-                  <span>{a.name}</span>
+                  <span>{author.name}</span>
                   <Button
                     buttonText={DELETE_AUTHOR_BUTTON_TEXT}
                     buttonType='button'
-                    onClick={() => removeAuhorFromCourseAuthors(a)}
+                    onClick={() => removeAuhorFromCourseAuthors(author)}
                   />
                 </div>
               ))

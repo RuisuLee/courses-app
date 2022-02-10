@@ -15,33 +15,31 @@ import { ICourse } from '../../../../models/Course';
 
 import './CourseCard.scss';
 
-export function CourseCard({
-  title,
-  description,
-  authors,
-  duration,
-  creationDate,
-}: ICourse) {
+interface ICourseProps {
+  course: ICourse;
+}
+
+export function CourseCard({ course }: ICourseProps) {
   const showCourse = () => {};
   return (
     <div className='course-card'>
       <section className='course-card__title-section'>
-        <h2>{title}</h2>
-        <p>{description}</p>
+        <h2>{course.title}</h2>
+        <p>{course.description}</p>
       </section>
       <section className='course-card__additional-info'>
         <div className='course-card__additional-info-content'>
           <span className='course-card__authors'>
             <b>{COURSE_CARD_AUTHORS}</b>
-            {getAuthors(authors)}
+            {getAuthors(course.authors)}
           </span>
           <span>
             <b>{COURSE_CARD_DURATION}</b>
-            {getFormattedDuration(duration)}
+            {getFormattedDuration(course.duration)}
           </span>
           <span>
             <b>{COURSE_CARD_CREATED}</b>
-            {getFormattedDate(creationDate)}
+            {getFormattedDate(course.creationDate)}
           </span>
         </div>
         <Button
