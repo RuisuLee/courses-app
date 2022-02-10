@@ -1,0 +1,17 @@
+@import '../../../../styles/mixins.scss';
+
+.search-bar-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @include element(input) {
+    & label {
+      display: none;
+    }
+
+    & input {
+      margin-right: 30px;
+    }
+  }
+}
