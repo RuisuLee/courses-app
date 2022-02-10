@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../common/Button/Button';
 import { CourseCard } from './components/CourseCard/CourseCard';
@@ -10,11 +11,7 @@ import { ICourse } from '../../models/Course';
 
 import './Courses.scss';
 
-interface ICoursesProps {
-  addNewCourse: () => void;
-}
-
-export function Courses({ addNewCourse }: ICoursesProps) {
+export function Courses() {
   const [courses, setCourses] = useState<Array<ICourse>>(mockedCoursesList);
 
   const onSearch = (value: string) => {
@@ -31,6 +28,8 @@ export function Courses({ addNewCourse }: ICoursesProps) {
 
     setCourses(findedCourses);
   };
+
+  const navigate = useNavigate();
   return (
     <section className='courses'>
       <nav className='search-bar'>
@@ -39,7 +38,9 @@ export function Courses({ addNewCourse }: ICoursesProps) {
           className='search-bar__button'
           buttonText={ADD_NEW_COURSE_BUTTON_TEXT}
           buttonType='button'
-          onClick={addNewCourse}
+          onClick={() => {
+            navigate('/courses/add');
+          }}
         />
       </nav>
       <main>

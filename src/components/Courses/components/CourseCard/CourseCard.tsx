@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../../common/Button/Button';
 
 import {
@@ -20,7 +21,7 @@ interface ICourseProps {
 }
 
 export function CourseCard({ course }: ICourseProps) {
-  const showCourse = () => {};
+  const navigate = useNavigate();
   return (
     <div className='course-card'>
       <section className='course-card__title-section'>
@@ -46,7 +47,9 @@ export function CourseCard({ course }: ICourseProps) {
           className='course-card__additional-info-button'
           buttonText={SHOW_COURSE_BUTTON_TEXT}
           buttonType='button'
-          onClick={showCourse}
+          onClick={() => {
+            navigate(`/courses/${course.id}`);
+          }}
         />
       </section>
     </div>
