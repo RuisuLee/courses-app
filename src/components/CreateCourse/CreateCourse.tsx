@@ -10,7 +10,7 @@ import {
 } from './components/CreateCourseForm/CreateCourseForm';
 
 import './CreateCourse.scss';
-import { mockedCoursesList } from '../../constants';
+import { mockedCoursesList, ROUTES } from '../../constants';
 
 const CreateCourseFormSchema = Yup.object().shape({
   titleInput: Yup.string()
@@ -55,7 +55,7 @@ export function CreateCourse() {
     };
     mockedCoursesList.push(course);
 
-    navigate('/courses');
+    navigate(ROUTES.courses);
   };
 
   return (

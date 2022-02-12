@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { mockedCoursesList } from '../../constants';
+import { mockedCoursesList, ROUTES } from '../../constants';
 import { getAuthors } from '../../helpers/authors';
 import { getFormattedDate } from '../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../helpers/pipeDuration';
@@ -30,7 +30,7 @@ export function CourseInfo() {
   return (
     <div className='course-info'>
       <header className='course-info__back'>
-        <Link to='/courses'>{'< Back to courses'}</Link>
+        <Link to={ROUTES.courses}>{'< Back to courses'}</Link>
       </header>
       <h1 className='course-info__title'>{course.title}</h1>
       <main className='course-info__content-wrapper'>

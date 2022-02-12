@@ -17,7 +17,7 @@ export function Input({
   className,
   type,
 }: IInputProps) {
-  const [field] = useField<string>(name);
+  const [field, meta] = useField<string>(name);
   const { value, onChange } = field;
 
   return (
@@ -34,6 +34,9 @@ export function Input({
         placeholder={placeholdetText}
         onChange={onChange}
       ></input>
+      {meta.touched && meta.error ? (
+        <div className='error'>{meta.error}</div>
+      ) : null}
     </div>
   );
 }

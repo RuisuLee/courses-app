@@ -5,7 +5,11 @@ import { Button } from '../../common/Button/Button';
 import { CourseCard } from './components/CourseCard/CourseCard';
 import { SearchBar } from './components/SearchBar/SearchBar';
 
-import { ADD_NEW_COURSE_BUTTON_TEXT, mockedCoursesList } from '../../constants';
+import {
+  ADD_NEW_COURSE_BUTTON_TEXT,
+  mockedCoursesList,
+  ROUTES,
+} from '../../constants';
 import { isSubStrInString } from '../../helpers/common';
 import { ICourse } from '../../models/Course';
 
@@ -39,7 +43,7 @@ export function Courses() {
           buttonText={ADD_NEW_COURSE_BUTTON_TEXT}
           buttonType='button'
           onClick={() => {
-            navigate('/courses/add');
+            navigate(ROUTES.addCourse);
           }}
         />
       </nav>

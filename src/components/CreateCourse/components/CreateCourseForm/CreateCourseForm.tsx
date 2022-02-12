@@ -95,12 +95,6 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
                 placeholdetText={CREATE_COURSE_TITLE_PLACEHOLDER_TEXT}
                 type='text'
               />
-              {props.getFieldMeta('titleInput').touched &&
-              props.getFieldMeta('titleInput').error ? (
-                <div className='error'>
-                  {props.getFieldMeta('titleInput').error}
-                </div>
-              ) : null}
             </div>
             <Button
               buttonText={CREATE_COURSE_BUTTON_TEXT}
@@ -114,12 +108,6 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
               labelText={CREATE_COURSE_DESCRIPTION_LABEL_TEXT}
               placeholdetText={CREATE_COURSE_DESCRIPTION_PLACEHOLDER_TEXT}
             />
-            {props.getFieldMeta('description').touched &&
-            props.getFieldMeta('description').error ? (
-              <div className='error'>
-                {props.getFieldMeta('description').error}
-              </div>
-            ) : null}
           </div>
         </div>
       </section>
@@ -197,12 +185,6 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
                 placeholdetText={CREATE_COURSE_DURATION_PLACEHOLDER_TEXT}
                 type='number'
               />
-              {props.getFieldMeta('duration').touched &&
-              props.getFieldMeta('duration').error ? (
-                <div className='error'>
-                  {props.getFieldMeta('duration').error}
-                </div>
-              ) : null}
             </div>
             <p>
               {CREATE_COURSE_DURATION_TITLE}:{' '}
@@ -212,7 +194,7 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
           <div className='course-additional-info__author-list'>
             <h3>{COURSE_AUTHORS_LIST_TITLE}</h3>
             {courseAuthors.length > 0 ? (
-              courseAuthors.map((author, index) => (
+              courseAuthors.map((author) => (
                 <div
                   key={author.id}
                   className='course-additional-info__author-list-item'
@@ -228,7 +210,7 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
             ) : (
               <div>{COURSE_AUTHORS_LIST_IS_EMPTY}</div>
             )}
-            {props.getFieldMeta('titleInput').error ? (
+            {props.getFieldMeta('authors').error ? (
               <div className='error'>{props.getFieldMeta('authors').error}</div>
             ) : null}
           </div>
