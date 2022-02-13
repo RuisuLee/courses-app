@@ -1,5 +1,15 @@
 import { createContext } from 'react';
 
-import { IUser } from '../helpers/userData';
+import { useUser } from '../hooks/useUser';
 
-export const UserContext = createContext<IUser | undefined>(undefined);
+const defaultUserContext = {
+  loading: true,
+  user: {
+    name: '',
+    token: '',
+  },
+  setUser: () => {},
+};
+
+export const UserContext =
+  createContext<ReturnType<typeof useUser>>(defaultUserContext);

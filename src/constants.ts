@@ -80,5 +80,11 @@ export const ROUTES = {
   login: '/login',
   registration: '/registration',
   courses: '/courses',
+  course: '/courses/:courseId',
   addCourse: '/courses/add',
+};
+
+export const USER_INFO = {
+  name: 'userName',
+  token: 'userToken',
 };

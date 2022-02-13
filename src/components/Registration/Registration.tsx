@@ -16,6 +16,11 @@ interface IRegistrationData {
   password: string;
 }
 
+interface IRegistrationResponse {
+  successful: boolean;
+  errors: Array<string>;
+}
+
 const registrationFormInitState: IRegistrationData = {
   name: '',
   email: '',
@@ -30,7 +35,7 @@ const RegistrationFormSchema = Yup.object().shape({
     .email('Email should be in correct format!')
     .required('Email field is required!'),
   password: Yup.string()
-    .min(4, 'Password should contain at least 4 symbols!')
+    .min(6, 'Password should contain at least 6 symbols!')
     .required('Password field is required!'),
 });
 
@@ -53,7 +58,10 @@ export function Registration() {
       },
     };
 
-    const response = await makeRequest(REGISTRATION_URL, options);
+    const response = await makeRequest<IRegistrationResponse>(
+      REGISTRATION_URL,
+      options
+    );
     if (response.successful) {
       navigate(ROUTES.login);
     } else {

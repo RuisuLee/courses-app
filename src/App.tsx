@@ -4,7 +4,6 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 import { Courses } from './components/Courses/Courses';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
@@ -15,53 +14,44 @@ import { Login } from './components/Login/Login';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
 
 import { UserContext } from './contexts/userContext';
-import { getUserData, IUser } from './helpers/userData';
 
 import './App.scss';
 import { ROUTES } from './constants';
+import { useUser } from './hooks/useUser';
 
 function App() {
-  const [user, setUser] = useState<IUser | undefined>({ name: '', token: '' });
-
-  useEffect(() => {
-    const user = getUserData();
-    setUser(user);
-  }, []);
+  const userContext = useUser();
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={userContext}>
       <div className='App'>
         <Router>
           <Header />
-          <Routes>
-            {user?.token ? (
-              <>
-                <Route
-                  path='/'
-                  element={<Navigate to={ROUTES.courses} />}
-                ></Route>
-                <Route path={ROUTES.courses} element={<Courses />}></Route>
-                <Route
-                  path={`${ROUTES.courses}/:courseId`}
-                  element={<CourseInfo />}
-                ></Route>
-                <Route
-                  path={ROUTES.addCourse}
-                  element={<CreateCourse />}
-                ></Route>
-                <Route path='*' element={<ErrorPage />}></Route>
-              </>
-            ) : (
-              <>
-                <Route
-                  path={ROUTES.registration}
-                  element={<Registration />}
-                ></Route>
-                <Route path={ROUTES.login} element={<Login />}></Route>
-                <Route path='*' element={<ErrorPage />}></Route>
-              </>
-            )}
-          </Routes>
+          {userContext.loading ? (
+            <p>Loading...</p>
+          ) : (
+            <Routes>
+              {userContext.user.token ? (
+                <>
+                  <Route path='/' element={<Navigate to={ROUTES.courses} />} />
+                  <Route path={ROUTES.courses} element={<Courses />} />
+                  <Route path={ROUTES.course} element={<CourseInfo />} />
+                  <Route path={ROUTES.addCourse} element={<CreateCourse />} />
+                  <Route path='*' element={<ErrorPage />} />
+                </>
+              ) : (
+                <>
+                  <Route path='/' element={<Navigate to={ROUTES.login} />} />
+                  <Route
+                    path={ROUTES.registration}
+                    element={<Registration />}
+                  />
+                  <Route path={ROUTES.login} element={<Login />} />
+                  <Route path='*' element={<ErrorPage />} />
+                </>
+              )}
+            </Routes>
+          )}
         </Router>
       </div>
     </UserContext.Provider>
