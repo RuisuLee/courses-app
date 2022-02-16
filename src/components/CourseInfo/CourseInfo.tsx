@@ -21,41 +21,52 @@ const defauldCourse: ICourse = {
 export function CourseInfo() {
   const { courseId } = useParams();
   const [course, setCourse] = useState<ICourse>(defauldCourse);
+  const [noCourseError, setNoCourseError] = useState<string>('');
   useEffect(() => {
     const findedCourse = mockedCoursesList.find(
       (course) => course.id === courseId
     );
-    if (findedCourse) setCourse(findedCourse);
+    if (findedCourse) {
+      setCourse(findedCourse);
+    } else {
+      setNoCourseError('No such course');
+    }
   }, [courseId]);
   return (
     <div className='course-info'>
       <header className='course-info__back'>
         <Link to={ROUTES.courses}>{'< Back to courses'}</Link>
       </header>
-      <h1 className='course-info__title'>{course.title}</h1>
-      <main className='course-info__content-wrapper'>
-        <section className='course-info__description'>
-          {course.description}
-        </section>
-        <aside>
-          <div>
-            <b>ID: </b>
-            {course.id}
-          </div>
-          <div>
-            <b>Duration: </b>
-            {getFormattedDuration(course.duration)}
-          </div>
-          <div>
-            <b>Created: </b>
-            {getFormattedDate(course.creationDate)}
-          </div>
-          <div>
-            <b>Authors: </b>
-            {getAuthors(course.authors)}
-          </div>
-        </aside>
-      </main>
+      {noCourseError ? (
+        <h1>{noCourseError}</h1>
+      ) : (
+        <>
+          <h1 className='course-info__title'>{course.title}</h1>
+          <main className='course-info__content-wrapper'>
+            <section className='course-info__description'>
+              {course.description}
+            </section>
+            <aside>
+              <div>
+                <b>ID: </b>
+                {course.id}
+              </div>
+              <div>
+                <b>Duration: </b>
+                {getFormattedDuration(course.duration)}
+              </div>
+              <div>
+                <b>Created: </b>
+                {getFormattedDate(course.creationDate)}
+              </div>
+              <div>
+                <b>Authors: </b>
+                {getAuthors(course.authors)}
+              </div>
+            </aside>
+          </main>
+        </>
+      )}
     </div>
   );
 }

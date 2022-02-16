@@ -77,6 +77,7 @@ export const REGISTRATION_URL = API_HOST + '/register';
 export const LOGIN_URL = API_HOST + '/login';
 
 export const ROUTES = {
+  default: '/',
   login: '/login',
   registration: '/registration',
   courses: '/courses',

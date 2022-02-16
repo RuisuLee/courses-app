@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
@@ -28,6 +29,13 @@ const loginFormInitState: ILoginData = {
   email: '',
   password: '',
 };
+
+const LoginFormSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Email should be in correct format!')
+    .required('Email field is required!'),
+  password: Yup.string().required('Password field is required!'),
+});
 
 export function Login() {
   const [errors, setErrors] = useState<Array<string>>([]);
@@ -72,7 +80,11 @@ export function Login() {
             </div>
           ))
         : null}
-      <Formik initialValues={loginFormInitState} onSubmit={onSubmit}>
+      <Formik
+        initialValues={loginFormInitState}
+        onSubmit={onSubmit}
+        validationSchema={LoginFormSchema}
+      >
         {(props) => (
           <form onSubmit={props.handleSubmit} className='login'>
             <Input

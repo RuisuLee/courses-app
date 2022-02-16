@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, generatePath } from 'react-router-dom';
 import { Button } from '../../../../common/Button/Button';
 
 import {
   COURSE_CARD_AUTHORS,
   COURSE_CARD_CREATED,
   COURSE_CARD_DURATION,
+  ROUTES,
   SHOW_COURSE_BUTTON_TEXT,
 } from '../../../../constants';
 
@@ -48,7 +49,10 @@ export function CourseCard({ course }: ICourseProps) {
           buttonText={SHOW_COURSE_BUTTON_TEXT}
           buttonType='button'
           onClick={() => {
-            navigate(`/courses/${course.id}`);
+            const path = generatePath(ROUTES.course, {
+              courseId: course.id,
+            });
+            navigate(path);
           }}
         />
       </section>
