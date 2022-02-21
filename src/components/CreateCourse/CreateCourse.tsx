@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { ICourse } from '../../models/Course';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 import {
   CreateCourseForm,
@@ -9,7 +10,7 @@ import {
 } from './components/CreateCourseForm/CreateCourseForm';
 
 import './CreateCourse.scss';
-import { mockedCoursesList } from '../../constants';
+import { mockedCoursesList, ROUTES } from '../../constants';
 
 const CreateCourseFormSchema = Yup.object().shape({
   titleInput: Yup.string()
@@ -38,13 +39,10 @@ const init: ICreateCourseFormValues = {
   authors: [],
 };
 
-interface ICreateCourseProps {
-  createNewCourse: () => void;
-}
+export function CreateCourse() {
+  const navigate = useNavigate();
 
-export function CreateCourse({ createNewCourse }: ICreateCourseProps) {
   const onSubmit = (inputCourse: ICreateCourseFormValues) => {
-    console.log(inputCourse);
     const course: ICourse = {
       id: uuidv4(),
       creationDate: new Date().toLocaleDateString('en-US'),
@@ -56,7 +54,8 @@ export function CreateCourse({ createNewCourse }: ICreateCourseProps) {
       }),
     };
     mockedCoursesList.push(course);
-    createNewCourse();
+
+    navigate(ROUTES.courses);
   };
 
   return (

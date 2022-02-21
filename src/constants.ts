@@ -71,3 +71,21 @@ export const ADD_AUTHOR_BUTTON_TEXT = 'Add author';
 export const COURSE_AUTHORS_LIST_TITLE = 'Course authors';
 export const COURSE_AUTHORS_LIST_IS_EMPTY = 'Author list is empty';
 export const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';
+
+const API_HOST = 'http://localhost:3000';
+export const REGISTRATION_URL = API_HOST + '/register';
+export const LOGIN_URL = API_HOST + '/login';
+
+export const ROUTES = {
+  default: '/',
+  login: '/login',
+  registration: '/registration',
+  courses: '/courses',
+  course: '/courses/:courseId',
+  addCourse: '/courses/add',
+};
+
+export const USER_INFO = {
+  name: 'userName',
+  token: 'userToken',
+};

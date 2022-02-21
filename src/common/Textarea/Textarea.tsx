@@ -14,7 +14,7 @@ export function Textarea({
   placeholdetText,
   className,
 }: ITextareaProps) {
-  const [field] = useField<string>(name);
+  const [field, meta] = useField<string>(name);
   const { value, onChange } = field;
 
   return (
@@ -27,6 +27,9 @@ export function Textarea({
         placeholder={placeholdetText}
         onChange={onChange}
       ></textarea>
+      {meta.touched && meta.error ? (
+        <div className='error'>{meta.error}</div>
+      ) : null}
     </div>
   );
 }
