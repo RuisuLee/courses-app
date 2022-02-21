@@ -75,6 +75,7 @@ export const DELETE_AUTHOR_BUTTON_TEXT = 'Delete author';
 const API_HOST = 'http://localhost:3000';
 export const REGISTRATION_URL = API_HOST + '/register';
 export const LOGIN_URL = API_HOST + '/login';
+export const COURSES_URL = API_HOST + '/courses/all';
 
 export const ROUTES = {
   default: '/',

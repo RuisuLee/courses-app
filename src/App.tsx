@@ -4,6 +4,8 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Provider, useSelector } from 'react-redux';
 
 import { Courses } from './components/Courses/Courses';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
@@ -13,25 +15,26 @@ import { Registration } from './components/Registration/Registration';
 import { Login } from './components/Login/Login';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
 
-import { UserContext } from './contexts/userContext';
-
 import './App.scss';
+
 import { ROUTES } from './constants';
-import { useUser } from './hooks/useUser';
+import { configureStore } from './store';
+import { selectUser } from './store/user/userSelector';
 
 function App() {
-  const userContext = useUser();
+  const store = useMemo(() => {
+    return configureStore();
+  }, []);
+  const user = useSelector(selectUser);
 
   return (
-    <UserContext.Provider value={userContext}>
-      <div className='App'>
-        <Router>
-          <Header />
-          {userContext.loading ? (
-            <p>Loading...</p>
-          ) : (
+    <div className='App'>
+      <Router>
+        <Header />
+        {store && (
+          <Provider store={store}>
             <Routes>
-              {userContext.user.token ? (
+              {user.token ? (
                 <>
                   <Route path='/' element={<Navigate to={ROUTES.courses} />} />
                   <Route path={ROUTES.courses} element={<Courses />} />
@@ -51,10 +54,10 @@ function App() {
                 </>
               )}
             </Routes>
-          )}
-        </Router>
-      </div>
-    </UserContext.Provider>
+          </Provider>
+        )}
+      </Router>
+    </div>
   );
 }
 

@@ -1,15 +1,21 @@
-import { useEffect, useState } from 'react';
-import { getUserData, IUser } from '../helpers/userData';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { putUserToken } from '../helpers/userData';
+import { userLoaded } from '../store/user/userActions';
+import { selectUser } from '../store/user/userSelector';
 
 export const useUser = () => {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<IUser>({ name: '', token: '' });
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   useEffect(() => {
-    const user = getUserData();
-    setUser(user);
-    setLoading(false);
-  }, []);
+    if (user.token) {
+      putUserToken(user);
+    }
+  }, [user]);
 
-  return { loading, user, setUser };
+  useEffect(() => {
+    dispatch(userLoaded(user));
+  }, []);
 };

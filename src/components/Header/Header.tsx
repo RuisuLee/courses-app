@@ -1,22 +1,23 @@
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserData } from '../../helpers/userData';
+import { selectUser } from '../../store/user/userSelector';
 
 import { Button } from '../../common/Button/Button';
 import { Logo } from './components/Logo/Logo';
 
 import { LOGOUT_BUTTON_TEXT, ROUTES } from '../../constants';
-import { UserContext } from '../../contexts/userContext';
 
 import './Header.scss';
-import { clearUserData } from '../../helpers/userData';
 
 export function Header() {
-  const { user, setUser } = useContext(UserContext);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const logout = () => {
     clearUserData();
-    setUser({ name: '', token: '' });
+    dispatch(logout());
     navigate(ROUTES.login);
   };
 
