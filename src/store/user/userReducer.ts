@@ -1,9 +1,15 @@
-import { IUser } from '../../helpers/userData';
+import { clearUserToken, IUser, putUserToken } from '../../helpers/userData';
 import { login, logout, UserActions } from './userActions';
 
-export function userReducer(state: IUser, action: UserActions): IUser {
+export type UserState = IUser | null;
+
+export function userReducer(
+  state: UserState = null,
+  action: UserActions
+): UserState {
   switch (action.type) {
     case login.type:
+      putUserToken(action.payload);
       return {
         isAuth: true,
         name: action.payload.name,
@@ -11,12 +17,8 @@ export function userReducer(state: IUser, action: UserActions): IUser {
         token: action.payload.token,
       };
     case logout.type:
-      return {
-        isAuth: false,
-        name: '',
-        email: '',
-        token: '',
-      };
+      clearUserToken();
+      return null;
     default:
       return state;
   }

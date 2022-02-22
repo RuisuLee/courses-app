@@ -1,15 +1,39 @@
+import { isSubStrInString } from '../../helpers/common';
 import { ICourse } from '../../models/Course';
-import { courseDeleted, CoursesActions, coursesLoaded } from './coursesActions';
+import {
+  courseDeleted,
+  courseFound,
+  CoursesActions,
+  coursesLoaded,
+} from './coursesActions';
+
+export type CoursesState = Array<ICourse> | null;
 
 export function coursesReducer(
-  state: Array<ICourse>,
+  state: CoursesState = null,
   action: CoursesActions
-): Array<ICourse> {
+): CoursesState {
   switch (action.type) {
     case coursesLoaded.type:
       return action.payload;
+    case courseFound.type:
+      if (!state || !action.payload) {
+        return state;
+      }
+      const foundCourses = state.filter(
+        (course) =>
+          isSubStrInString(course.id, action.payload) ||
+          isSubStrInString(course.title, action.payload)
+      );
+      return foundCourses;
     case courseDeleted.type:
-      return state.filter((course) => course.id !== action.payload);
+      if (!state || !action.payload) {
+        return state;
+      }
+      const filteredCoursesList = state.filter(
+        (course) => course.id !== action.payload
+      );
+      return filteredCoursesList;
     default:
       return state;
   }

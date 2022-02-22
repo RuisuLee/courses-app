@@ -2,19 +2,6 @@ import { combineReducers, createStore, compose } from 'redux';
 import { coursesReducer } from './courses/coursesReducer';
 import { userReducer } from './user/userReducer';
 
-export function createActionFactory<T extends string>(actionType: T) {
-  return function <PayloadType>() {
-    const createAction = function (payload: PayloadType) {
-      return {
-        type: actionType,
-        payload,
-      };
-    };
-    createAction.type = actionType;
-    return createAction;
-  };
-}
-
 export const rootReducer = combineReducers({
   user: userReducer,
   courses: coursesReducer,

@@ -1,5 +1,5 @@
-import { createActionFactory } from '..';
 import { IUser } from '../../helpers/userData';
+import { createActionFactory } from '../actionFactory';
 
 export const login = createActionFactory('login')<IUser>();
 export const logout = createActionFactory('logout')();
