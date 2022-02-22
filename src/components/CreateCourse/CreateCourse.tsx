@@ -3,6 +3,10 @@ import * as Yup from 'yup';
 import { ICourse } from '../../models/Course';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { courseAdded } from '../../store/courses/coursesActions';
+import { ROUTES } from '../../constants';
 
 import {
   CreateCourseForm,
@@ -10,7 +14,6 @@ import {
 } from './components/CreateCourseForm/CreateCourseForm';
 
 import './CreateCourse.scss';
-import { mockedCoursesList, ROUTES } from '../../constants';
 
 const CreateCourseFormSchema = Yup.object().shape({
   titleInput: Yup.string()
@@ -41,6 +44,7 @@ const init: ICreateCourseFormValues = {
 
 export function CreateCourse() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (inputCourse: ICreateCourseFormValues) => {
     const course: ICourse = {
@@ -53,7 +57,7 @@ export function CreateCourse() {
         return author.id;
       }),
     };
-    mockedCoursesList.push(course);
+    dispatch(courseAdded(course));
 
     navigate(ROUTES.courses);
   };

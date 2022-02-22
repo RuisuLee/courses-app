@@ -14,3 +14,7 @@ export function putUserToken(user: IUser) {
 export function clearUserToken() {
   localStorage.removeItem(USER_INFO.token);
 }
+
+export function getUserToken(): string | null {
+  return localStorage.getItem(USER_INFO.token);
+}

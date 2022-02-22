@@ -1,5 +1,5 @@
 import { Formik, FormikProps, useField } from 'formik';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
@@ -24,10 +24,12 @@ import {
   CREATE_COURSE_TITLE_LABEL_TEXT,
   CREATE_COURSE_TITLE_PLACEHOLDER_TEXT,
   DELETE_AUTHOR_BUTTON_TEXT,
-  mockedAuthorsList,
 } from '../../../../constants';
 import { getFormattedDuration } from '../../../../helpers/pipeDuration';
+import { useAuthors } from '../../../../hooks/useAuthors';
 import { IAuthor } from '../../../../models/Author';
+import { authorAdded } from '../../../../store/authors/authorsActions';
+import { selectAuthors } from '../../../../store/authors/authorsSelector';
 
 import '../../CreateCourse.scss';
 
@@ -45,7 +47,9 @@ const AuthorNameValidationSchema = Yup.object().shape({
 });
 
 export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
-  const [authors, setAuthors] = useState<Array<IAuthor>>(mockedAuthorsList);
+  useAuthors();
+  const dispatch = useDispatch();
+  const authors = useSelector(selectAuthors);
   const [authorsField] = useField<Array<IAuthor>>('authors');
   const { value: courseAuthors, onChange: onCourseAuthorsChange } =
     authorsField;
@@ -64,10 +68,8 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
       id: uuidv4(),
       name: values.authorName,
     };
-    const newAuthors = [...authors, author];
 
-    setAuthors(newAuthors);
-    mockedAuthorsList.push(author);
+    dispatch(authorAdded(author));
   };
 
   const addAuhorToCourseAuthors = (author: IAuthor) => {
@@ -156,19 +158,23 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
           <div className='course-additional-info__author-list'>
             <h3>{CREATE_COURSE_AUTHORS_LIST_TITLE}</h3>
             <div>
-              {authors.map((author) => (
-                <div
-                  key={author.id}
-                  className='course-additional-info__author-list-item'
-                >
-                  <span>{author.name}</span>
-                  <Button
-                    buttonText={ADD_AUTHOR_BUTTON_TEXT}
-                    buttonType='button'
-                    onClick={() => addAuhorToCourseAuthors(author)}
-                  />
-                </div>
-              ))}
+              {authors ? (
+                authors.map((author) => (
+                  <div
+                    key={author.id}
+                    className='course-additional-info__author-list-item'
+                  >
+                    <span>{author.name}</span>
+                    <Button
+                      buttonText={ADD_AUTHOR_BUTTON_TEXT}
+                      buttonType='button'
+                      onClick={() => addAuhorToCourseAuthors(author)}
+                    />
+                  </div>
+                ))
+              ) : (
+                <h1>No suggested authors</h1>
+              )}
             </div>
           </div>
         </div>

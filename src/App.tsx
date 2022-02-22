@@ -20,6 +20,7 @@ import './App.scss';
 import { ROUTES } from './constants';
 import { configureStore } from './store';
 import { selectUser } from './store/user/userSelector';
+import { useUser } from './hooks/useUser';
 
 function App() {
   const store = useMemo(() => {
@@ -36,8 +37,8 @@ function App() {
 }
 
 function AppInner() {
+  useUser();
   const user = useSelector(selectUser);
-  console.log(user);
   return (
     <Router>
       <Header />

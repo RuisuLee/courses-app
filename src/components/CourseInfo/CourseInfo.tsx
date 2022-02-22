@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { mockedCoursesList, ROUTES } from '../../constants';
+import { ROUTES } from '../../constants';
 import { getAuthors } from '../../helpers/authors';
 import { getFormattedDate } from '../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../helpers/pipeDuration';
+import { useAuthors } from '../../hooks/useAuthors';
 import { ICourse } from '../../models/Course';
+import { selectAuthors } from '../../store/authors/authorsSelector';
 
 import './CourseInfo.scss';
+import { selectCourses } from '../../store/courses/coursesSelector';
 
 const defauldCourse: ICourse = {
   id: '',
@@ -20,18 +24,23 @@ const defauldCourse: ICourse = {
 
 export function CourseInfo() {
   const { courseId } = useParams();
+
   const [course, setCourse] = useState<ICourse>(defauldCourse);
   const [noCourseError, setNoCourseError] = useState<string>('');
+
+  const courses = useSelector(selectCourses);
+  const authors = useSelector(selectAuthors);
+
+  useAuthors();
   useEffect(() => {
-    const findedCourse = mockedCoursesList.find(
-      (course) => course.id === courseId
-    );
+    const findedCourse = courses?.find((course) => course.id === courseId);
     if (findedCourse) {
       setCourse(findedCourse);
     } else {
       setNoCourseError('No such course');
     }
   }, [courseId]);
+
   return (
     <div className='course-info'>
       <header className='course-info__back'>
@@ -61,7 +70,7 @@ export function CourseInfo() {
               </div>
               <div>
                 <b>Authors: </b>
-                {getAuthors(course.authors)}
+                {getAuthors(course.authors, authors)}
               </div>
             </aside>
           </main>

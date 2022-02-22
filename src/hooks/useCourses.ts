@@ -19,16 +19,14 @@ export const useCourses = () => {
   useEffect(() => {
     if (courses) {
       dispatch(coursesLoaded(courses));
+    } else {
+      makeRequest<ICoursesResponse>(COURSES_URL).then((resp) => {
+        if (resp.successful) {
+          dispatch(coursesLoaded(resp.result));
+        } else {
+          dispatch(coursesLoaded([]));
+        }
+      });
     }
-  }, [courses]);
-
-  useEffect(() => {
-    makeRequest<ICoursesResponse>(COURSES_URL).then((resp) => {
-      if (resp.successful) {
-        dispatch(coursesLoaded(resp.result));
-      } else {
-        dispatch(coursesLoaded([]));
-      }
-    });
   }, []);
 };
