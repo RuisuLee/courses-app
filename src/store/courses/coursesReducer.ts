@@ -1,9 +1,7 @@
-import { isSubStrInString } from '../../helpers/common';
 import { ICourse } from '../../models/Course';
 import {
   courseAdded,
   courseDeleted,
-  courseFound,
   CoursesActions,
   coursesLoaded,
 } from './coursesActions';
@@ -17,16 +15,6 @@ export function coursesReducer(
   switch (action.type) {
     case coursesLoaded.type:
       return action.payload;
-    case courseFound.type:
-      if (!state || !action.payload) {
-        return state;
-      }
-      const foundCourses = state.filter(
-        (course) =>
-          isSubStrInString(course.id, action.payload) ||
-          isSubStrInString(course.title, action.payload)
-      );
-      return foundCourses;
     case courseAdded.type:
       const nonEmptyState = state || [];
       return [action.payload, ...nonEmptyState];

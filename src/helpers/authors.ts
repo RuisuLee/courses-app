@@ -1,10 +1,10 @@
 import { IAuthor } from '../models/Author';
 
 export const getAuthors = (
-  authors: Array<string>,
+  authorsIds: Array<string>,
   authorsList: Array<IAuthor> | null
 ): string => {
-  const authorsResultList: Array<string | undefined> = authors.map(
+  const authorsResultList: Array<string | undefined> = authorsIds.map(
     (authorId) => {
       return authorsList?.find((author) => author.id === authorId)?.name;
     }

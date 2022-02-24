@@ -9,7 +9,7 @@ import { Input } from '../../common/Input/Input';
 
 import { LOGIN_URL, ROUTES } from '../../constants';
 import { makeRequest } from '../../helpers/makeRequest';
-import { IUser } from '../../helpers/userData';
+import { IUser, putUserToken } from '../../helpers/userData';
 
 import './Login.scss';
 import { login } from '../../store/user/userActions';
@@ -63,6 +63,7 @@ export function Login() {
         email: response.user.email,
       };
       dispatch(login(user));
+      putUserToken(user);
       navigate(ROUTES.courses);
     } else {
       if (response.result) {

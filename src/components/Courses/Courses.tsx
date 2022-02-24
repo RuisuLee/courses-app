@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { CourseCard } from './components/CourseCard/CourseCard';
@@ -9,17 +9,34 @@ import { ADD_NEW_COURSE_BUTTON_TEXT, ROUTES } from '../../constants';
 
 import './Courses.scss';
 import { selectCourses } from '../../store/courses/coursesSelector';
-import { courseFound } from '../../store/courses/coursesActions';
 import { useCourses } from '../../hooks/useCourses';
+import { useState } from 'react';
+import { ICourse } from '../../models/Course';
+import { isSubStrInString } from '../../helpers/common';
 
 export function Courses() {
   useCourses();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const courses = useSelector(selectCourses);
+  const storeCourses = useSelector(selectCourses);
+  const [courses, setCourses] = useState<Array<ICourse> | null>(storeCourses);
 
   function onSearch(value: string) {
-    dispatch(courseFound(value));
+    if (!value) {
+      setCourses(storeCourses);
+      return;
+    }
+
+    const findedCourses = storeCourses?.filter(
+      (course) =>
+        isSubStrInString(course.id, value) ||
+        isSubStrInString(course.title, value)
+    );
+
+    if (findedCourses) {
+      setCourses(findedCourses);
+    } else {
+      setCourses(null);
+    }
   }
 
   return (
