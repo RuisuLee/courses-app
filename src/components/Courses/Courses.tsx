@@ -10,15 +10,19 @@ import { ADD_NEW_COURSE_BUTTON_TEXT, ROUTES } from '../../constants';
 import './Courses.scss';
 import { selectCourses } from '../../store/courses/coursesSelector';
 import { useCourses } from '../../hooks/useCourses';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICourse } from '../../models/Course';
 import { isSubStrInString } from '../../helpers/common';
 
 export function Courses() {
-  useCourses();
+  const loading = useCourses();
   const navigate = useNavigate();
   const storeCourses = useSelector(selectCourses);
   const [courses, setCourses] = useState<Array<ICourse> | null>(storeCourses);
+
+  useEffect(() => {
+    setCourses(storeCourses);
+  }, [storeCourses]);
 
   function onSearch(value: string) {
     if (!value) {
@@ -52,15 +56,19 @@ export function Courses() {
           }}
         />
       </nav>
-      <main>
-        {courses ? (
-          courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))
-        ) : (
-          <h1>No active courses found</h1>
-        )}
-      </main>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <main>
+          {courses ? (
+            courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))
+          ) : (
+            <h1>No active courses found</h1>
+          )}
+        </main>
+      )}
     </section>
   );
 }

@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUserToken, IUser } from '../helpers/userData';
 import { makeRequest } from '../helpers/makeRequest';
-import { ROUTES, USER } from '../constants';
-import { login } from '../store/user/userActions';
+import { USER } from '../constants';
+import { login, logout } from '../store/user/userActions';
 
 interface IUserResponse {
   successful: boolean;
@@ -12,6 +11,7 @@ interface IUserResponse {
 }
 
 export const useUser = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,12 +22,19 @@ export const useUser = () => {
           Authorization: token,
         },
       }).then((resp) => {
-        const user = {
-          ...resp.result,
-          token,
-        };
-        dispatch(login(user));
+        if (resp.successful) {
+          const user = {
+            ...resp.result,
+            token,
+          };
+          dispatch(login(user));
+        } else {
+          dispatch(logout(null));
+        }
+        setLoading(false);
       });
     }
   }, []);
+
+  return loading;
 };

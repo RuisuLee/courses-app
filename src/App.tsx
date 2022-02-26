@@ -37,29 +37,33 @@ function App() {
 }
 
 function AppInner() {
-  useUser();
   const user = useSelector(selectUser);
+  const loading = useUser();
   return (
     <Router>
       <Header />
-      <Routes>
-        {user ? (
-          <>
-            <Route path='/' element={<Navigate to={ROUTES.courses} />} />
-            <Route path={ROUTES.courses} element={<Courses />} />
-            <Route path={ROUTES.course} element={<CourseInfo />} />
-            <Route path={ROUTES.addCourse} element={<CreateCourse />} />
-            <Route path='*' element={<ErrorPage />} />
-          </>
-        ) : (
-          <>
-            <Route path='/' element={<Navigate to={ROUTES.login} />} />
-            <Route path={ROUTES.registration} element={<Registration />} />
-            <Route path={ROUTES.login} element={<Login />} />
-            <Route path='*' element={<ErrorPage />} />
-          </>
-        )}
-      </Routes>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <Routes>
+          {user ? (
+            <>
+              <Route path='/' element={<Navigate to={ROUTES.courses} />} />
+              <Route path={ROUTES.courses} element={<Courses />} />
+              <Route path={ROUTES.course} element={<CourseInfo />} />
+              <Route path={ROUTES.addCourse} element={<CreateCourse />} />
+              <Route path='*' element={<ErrorPage />} />
+            </>
+          ) : (
+            <>
+              <Route path='/' element={<Navigate to={ROUTES.login} />} />
+              <Route path={ROUTES.registration} element={<Registration />} />
+              <Route path={ROUTES.login} element={<Login />} />
+              <Route path='*' element={<ErrorPage />} />
+            </>
+          )}
+        </Routes>
+      )}
     </Router>
   );
 }
