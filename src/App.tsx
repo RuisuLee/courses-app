@@ -8,7 +8,6 @@ import { useMemo } from 'react';
 import { Provider, useSelector } from 'react-redux';
 
 import { Courses } from './components/Courses/Courses';
-import { CreateCourse } from './components/CreateCourse/CreateCourse';
 import { ErrorPage } from './components/ErrorPage/ErrorPage';
 import { Header } from './components/Header/Header';
 import { Registration } from './components/Registration/Registration';
@@ -21,6 +20,7 @@ import { ROUTES } from './constants';
 import { configureStore } from './store';
 import { selectUser } from './store/user/userSelector';
 import { useUser } from './hooks/useUser';
+import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
 
 function App() {
   const store = useMemo(() => {
@@ -48,10 +48,11 @@ function AppInner() {
         <Routes>
           {user ? (
             <>
-              <Route path='/' element={<Navigate to={ROUTES.courses} />} />
+              <Route path='/' element={<PrivateRouter />}>
+                <Route path='/' element={<Navigate to={ROUTES.courses} />} />
+                <Route path={ROUTES.course} element={<CourseInfo />} />
+              </Route>
               <Route path={ROUTES.courses} element={<Courses />} />
-              <Route path={ROUTES.course} element={<CourseInfo />} />
-              <Route path={ROUTES.addCourse} element={<CreateCourse />} />
               <Route path='*' element={<ErrorPage />} />
             </>
           ) : (

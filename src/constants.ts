@@ -35,6 +35,7 @@ export const LOGIN_URL = API_HOST + '/login';
 export const COURSES_URL = API_HOST + '/courses/all';
 export const USER = API_HOST + '/users/me';
 export const AUTHORS_URL = API_HOST + '/authors/all';
+export const LOGOUT_URL = API_HOST + '/logout';
 
 export const ROUTES = {
   default: '/',

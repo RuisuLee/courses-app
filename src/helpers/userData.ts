@@ -5,10 +5,11 @@ export interface IUser {
   isAuth: boolean;
   email: string;
   token: string;
+  role: string;
 }
 
-export function putUserToken(user: IUser) {
-  localStorage.setItem(USER_INFO.token, user.token);
+export function putUserToken(token: string) {
+  localStorage.setItem(USER_INFO.token, token);
 }
 
 export function clearUserToken() {

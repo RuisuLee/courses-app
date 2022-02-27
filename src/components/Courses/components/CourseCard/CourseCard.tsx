@@ -19,7 +19,8 @@ import { ICourse } from '../../../../models/Course';
 import { selectAuthors } from '../../../../store/authors/authorsSelector';
 
 import './CourseCard.scss';
-import { courseDeleted } from '../../../../store/courses/coursesActions';
+import { selectUser } from '../../../../store/user/userSelector';
+import { deleteCourse } from '../../../../store/courses/thunk';
 
 interface ICourseProps {
   course: ICourse;
@@ -29,12 +30,13 @@ export function CourseCard({ course }: ICourseProps) {
   useAuthors();
   const navigate = useNavigate();
   const authors = useSelector(selectAuthors);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const editCourse = () => {};
 
-  const deleteCourse = (id: string) => {
-    dispatch(courseDeleted(id));
+  const deleteCourseHandler = (id: string) => {
+    dispatch(deleteCourse(id));
   };
 
   return (
@@ -70,20 +72,24 @@ export function CourseCard({ course }: ICourseProps) {
               navigate(path);
             }}
           />
-          <Button
-            className='course-card__edit-button'
-            buttonText=''
-            buttonType='button'
-            onClick={editCourse}
-          />
-          <Button
-            className='course-card__delete-button'
-            buttonText=''
-            buttonType='button'
-            onClick={() => {
-              deleteCourse(course.id);
-            }}
-          />
+          {user?.role === 'admin' ? (
+            <>
+              <Button
+                className='course-card__edit-button'
+                buttonText=''
+                buttonType='button'
+                onClick={editCourse}
+              />
+              <Button
+                className='course-card__delete-button'
+                buttonText=''
+                buttonType='button'
+                onClick={() => {
+                  deleteCourseHandler(course.id);
+                }}
+              />
+            </>
+          ) : null}
         </div>
       </section>
     </div>
