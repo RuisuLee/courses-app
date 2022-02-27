@@ -1,17 +1,18 @@
 import { Formik } from 'formik';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { Input } from '../../common/Input/Input';
 
 import { LOGIN_URL, ROUTES } from '../../constants';
-import { UserContext } from '../../contexts/userContext';
 import { makeRequest } from '../../helpers/makeRequest';
-import { IUser, putUserData } from '../../helpers/userData';
+import { IUser, putUserToken } from '../../helpers/userData';
 
 import './Login.scss';
+import { login } from '../../store/user/userActions';
 
 interface ILoginData {
   email: string;
@@ -39,8 +40,8 @@ const LoginFormSchema = Yup.object().shape({
 
 export function Login() {
   const [errors, setErrors] = useState<Array<string>>([]);
-  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = async (values: ILoginData) => {
     const { email, password } = values;
@@ -55,12 +56,14 @@ export function Login() {
 
     const response = await makeRequest<ILoginResponse>(LOGIN_URL, options);
     if (response.successful) {
-      const user = {
+      const user: IUser = {
         name: response.user.name,
         token: response.result,
+        isAuth: true,
+        email: response.user.email,
       };
-      putUserData(user);
-      setUser(user);
+      dispatch(login(user));
+      putUserToken(user);
       navigate(ROUTES.courses);
     } else {
       if (response.result) {

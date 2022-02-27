@@ -31,6 +31,28 @@
     align-self: center;
   }
 
+  @include element(buttons-wrapper) {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  @include element(edit-button) {
+    background-image: url(../../../../assets/pencil.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center;
+    width: 30px;
+  }
+
+  @include element(delete-button) {
+    background-image: url(../../../../assets/bin.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center;
+    width: 30px;
+  }
+
   @include element(authors) {
     white-space: nowrap;
     overflow: hidden;

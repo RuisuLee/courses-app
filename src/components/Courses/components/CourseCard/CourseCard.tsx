@@ -1,4 +1,5 @@
 import { useNavigate, generatePath } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../../../../common/Button/Button';
 
 import {
@@ -12,17 +13,30 @@ import {
 import { getAuthors } from '../../../../helpers/authors';
 import { getFormattedDate } from '../../../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../../../helpers/pipeDuration';
+import { useAuthors } from '../../../../hooks/useAuthors';
 
 import { ICourse } from '../../../../models/Course';
+import { selectAuthors } from '../../../../store/authors/authorsSelector';
 
 import './CourseCard.scss';
+import { courseDeleted } from '../../../../store/courses/coursesActions';
 
 interface ICourseProps {
   course: ICourse;
 }
 
 export function CourseCard({ course }: ICourseProps) {
+  useAuthors();
   const navigate = useNavigate();
+  const authors = useSelector(selectAuthors);
+  const dispatch = useDispatch();
+
+  const editCourse = () => {};
+
+  const deleteCourse = (id: string) => {
+    dispatch(courseDeleted(id));
+  };
+
   return (
     <div className='course-card'>
       <section className='course-card__title-section'>
@@ -33,7 +47,7 @@ export function CourseCard({ course }: ICourseProps) {
         <div className='course-card__additional-info-content'>
           <span className='course-card__authors'>
             <b>{COURSE_CARD_AUTHORS}</b>
-            {getAuthors(course.authors)}
+            {getAuthors(course.authors, authors)}
           </span>
           <span>
             <b>{COURSE_CARD_DURATION}</b>
@@ -44,17 +58,33 @@ export function CourseCard({ course }: ICourseProps) {
             {getFormattedDate(course.creationDate)}
           </span>
         </div>
-        <Button
-          className='course-card__additional-info-button'
-          buttonText={SHOW_COURSE_BUTTON_TEXT}
-          buttonType='button'
-          onClick={() => {
-            const path = generatePath(ROUTES.course, {
-              courseId: course.id,
-            });
-            navigate(path);
-          }}
-        />
+        <div className='course-card__buttons-wrapper'>
+          <Button
+            className='course-card__additional-info-button'
+            buttonText={SHOW_COURSE_BUTTON_TEXT}
+            buttonType='button'
+            onClick={() => {
+              const path = generatePath(ROUTES.course, {
+                courseId: course.id,
+              });
+              navigate(path);
+            }}
+          />
+          <Button
+            className='course-card__edit-button'
+            buttonText=''
+            buttonType='button'
+            onClick={editCourse}
+          />
+          <Button
+            className='course-card__delete-button'
+            buttonText=''
+            buttonType='button'
+            onClick={() => {
+              deleteCourse(course.id);
+            }}
+          />
+        </div>
       </section>
     </div>
   );

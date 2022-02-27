@@ -4,6 +4,8 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Provider, useSelector } from 'react-redux';
 
 import { Courses } from './components/Courses/Courses';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
@@ -13,48 +15,56 @@ import { Registration } from './components/Registration/Registration';
 import { Login } from './components/Login/Login';
 import { CourseInfo } from './components/CourseInfo/CourseInfo';
 
-import { UserContext } from './contexts/userContext';
-
 import './App.scss';
+
 import { ROUTES } from './constants';
+import { configureStore } from './store';
+import { selectUser } from './store/user/userSelector';
 import { useUser } from './hooks/useUser';
 
 function App() {
-  const userContext = useUser();
+  const store = useMemo(() => {
+    return configureStore();
+  }, []);
 
   return (
-    <UserContext.Provider value={userContext}>
-      <div className='App'>
-        <Router>
-          <Header />
-          {userContext.loading ? (
-            <p>Loading...</p>
+    <div className='App'>
+      <Provider store={store}>
+        <AppInner></AppInner>
+      </Provider>
+    </div>
+  );
+}
+
+function AppInner() {
+  const user = useSelector(selectUser);
+  const loading = useUser();
+  return (
+    <Router>
+      <Header />
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <Routes>
+          {user ? (
+            <>
+              <Route path='/' element={<Navigate to={ROUTES.courses} />} />
+              <Route path={ROUTES.courses} element={<Courses />} />
+              <Route path={ROUTES.course} element={<CourseInfo />} />
+              <Route path={ROUTES.addCourse} element={<CreateCourse />} />
+              <Route path='*' element={<ErrorPage />} />
+            </>
           ) : (
-            <Routes>
-              {userContext.user.token ? (
-                <>
-                  <Route path='/' element={<Navigate to={ROUTES.courses} />} />
-                  <Route path={ROUTES.courses} element={<Courses />} />
-                  <Route path={ROUTES.course} element={<CourseInfo />} />
-                  <Route path={ROUTES.addCourse} element={<CreateCourse />} />
-                  <Route path='*' element={<ErrorPage />} />
-                </>
-              ) : (
-                <>
-                  <Route path='/' element={<Navigate to={ROUTES.login} />} />
-                  <Route
-                    path={ROUTES.registration}
-                    element={<Registration />}
-                  />
-                  <Route path={ROUTES.login} element={<Login />} />
-                  <Route path='*' element={<ErrorPage />} />
-                </>
-              )}
-            </Routes>
+            <>
+              <Route path='/' element={<Navigate to={ROUTES.login} />} />
+              <Route path={ROUTES.registration} element={<Registration />} />
+              <Route path={ROUTES.login} element={<Login />} />
+              <Route path='*' element={<ErrorPage />} />
+            </>
           )}
-        </Router>
-      </div>
-    </UserContext.Provider>
+        </Routes>
+      )}
+    </Router>
   );
 }
 

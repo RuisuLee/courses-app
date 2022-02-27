@@ -1,39 +1,48 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Button } from '../../common/Button/Button';
 import { CourseCard } from './components/CourseCard/CourseCard';
 import { SearchBar } from './components/SearchBar/SearchBar';
 
-import {
-  ADD_NEW_COURSE_BUTTON_TEXT,
-  mockedCoursesList,
-  ROUTES,
-} from '../../constants';
-import { isSubStrInString } from '../../helpers/common';
-import { ICourse } from '../../models/Course';
+import { ADD_NEW_COURSE_BUTTON_TEXT, ROUTES } from '../../constants';
 
 import './Courses.scss';
+import { selectCourses } from '../../store/courses/coursesSelector';
+import { useCourses } from '../../hooks/useCourses';
+import { useEffect, useState } from 'react';
+import { ICourse } from '../../models/Course';
+import { isSubStrInString } from '../../helpers/common';
 
 export function Courses() {
-  const [courses, setCourses] = useState<Array<ICourse>>(mockedCoursesList);
+  const loading = useCourses();
+  const navigate = useNavigate();
+  const storeCourses = useSelector(selectCourses);
+  const [courses, setCourses] = useState<Array<ICourse> | null>(storeCourses);
 
-  const onSearch = (value: string) => {
+  useEffect(() => {
+    setCourses(storeCourses);
+  }, [storeCourses]);
+
+  function onSearch(value: string) {
     if (!value) {
-      setCourses(mockedCoursesList);
+      setCourses(storeCourses);
       return;
     }
 
-    const findedCourses = mockedCoursesList.filter(
+    const findedCourses = storeCourses?.filter(
       (course) =>
         isSubStrInString(course.id, value) ||
         isSubStrInString(course.title, value)
     );
 
-    setCourses(findedCourses);
-  };
+    if (findedCourses) {
+      setCourses(findedCourses);
+    } else {
+      setCourses(null);
+    }
+  }
 
-  const navigate = useNavigate();
   return (
     <section className='courses'>
       <nav className='search-bar'>
@@ -47,11 +56,19 @@ export function Courses() {
           }}
         />
       </nav>
-      <main>
-        {courses.map((course) => (
-          <CourseCard key={course.id} course={course} />
-        ))}
-      </main>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <main>
+          {courses ? (
+            courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))
+          ) : (
+            <h1>No active courses found</h1>
+          )}
+        </main>
+      )}
     </section>
   );
 }

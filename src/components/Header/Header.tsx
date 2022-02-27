@@ -1,36 +1,38 @@
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from '../../store/user/userSelector';
 
 import { Button } from '../../common/Button/Button';
 import { Logo } from './components/Logo/Logo';
 
 import { LOGOUT_BUTTON_TEXT, ROUTES } from '../../constants';
-import { UserContext } from '../../contexts/userContext';
 
 import './Header.scss';
-import { clearUserData } from '../../helpers/userData';
+import { logout } from '../../store/user/userActions';
+import { clearUserToken } from '../../helpers/userData';
 
 export function Header() {
-  const { user, setUser } = useContext(UserContext);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const logout = () => {
-    clearUserData();
-    setUser({ name: '', token: '' });
+  const logoutHandler = () => {
+    dispatch(logout(user));
+    clearUserToken();
     navigate(ROUTES.login);
   };
 
   return (
     <header className='header'>
       <Logo />
-      {user.token ? (
+      {user ? (
         <div className='user-bar'>
           <div className='user-bar__username'>{user.name}</div>
           <Button
             className='user-bar__button'
             buttonText={LOGOUT_BUTTON_TEXT}
             buttonType='button'
-            onClick={logout}
+            onClick={logoutHandler}
           />
         </div>
       ) : null}
