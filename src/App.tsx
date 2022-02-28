@@ -21,6 +21,7 @@ import { configureStore } from './store';
 import { selectUser } from './store/user/userSelector';
 import { useUser } from './hooks/useUser';
 import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
+import { CreateCourse } from './components/CreateCourse/CreateCourse';
 
 function App() {
   const store = useMemo(() => {
@@ -48,11 +49,17 @@ function AppInner() {
         <Routes>
           {user ? (
             <>
-              <Route path='/' element={<PrivateRouter />}>
-                <Route path='/' element={<Navigate to={ROUTES.courses} />} />
-                <Route path={ROUTES.course} element={<CourseInfo />} />
-              </Route>
+              <Route path='/' element={<Navigate to={ROUTES.courses} />} />
+              <Route path={ROUTES.course} element={<CourseInfo />} />
               <Route path={ROUTES.courses} element={<Courses />} />
+              <Route
+                path={ROUTES.addCourse}
+                element={
+                  <PrivateRouter>
+                    <CreateCourse />
+                  </PrivateRouter>
+                }
+              />
               <Route path='*' element={<ErrorPage />} />
             </>
           ) : (
