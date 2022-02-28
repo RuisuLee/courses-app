@@ -4,6 +4,7 @@ import {
   courseDeleted,
   CoursesActions,
   coursesLoaded,
+  courseUpdated,
 } from './coursesActions';
 
 export type CoursesState = Array<ICourse> | null;
@@ -26,6 +27,21 @@ export function coursesReducer(
         (course) => course.id !== action.payload
       );
       return filteredCoursesList;
+    case courseUpdated.type:
+      if (!state || !action.payload) {
+        return state;
+      }
+      const courseIndex = state.findIndex(
+        (course) => course.id === action.payload.id
+      );
+      if (courseIndex < 0) {
+        return state;
+      }
+      return [
+        ...state.slice(0, courseIndex),
+        action.payload,
+        ...state.slice(courseIndex + 1),
+      ];
     default:
       return state;
   }

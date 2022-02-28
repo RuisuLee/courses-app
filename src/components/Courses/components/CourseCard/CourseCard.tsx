@@ -78,7 +78,12 @@ export function CourseCard({ course }: ICourseProps) {
                 className='course-card__edit-button'
                 buttonText=''
                 buttonType='button'
-                onClick={editCourse}
+                onClick={() => {
+                  const path = generatePath(ROUTES.updateCourse, {
+                    courseId: course.id,
+                  });
+                  navigate(path);
+                }}
               />
               <Button
                 className='course-card__delete-button'

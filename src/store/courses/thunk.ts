@@ -1,12 +1,13 @@
-import {
-  COURSES_URL,
-  CREATE_COURSE_URL,
-  DELETE_COURSE_URL,
-} from '../../constants';
+import { COURSES_URL, CREATE_COURSE_URL, COURSE_URL } from '../../constants';
 import { makeRequest } from '../../helpers/makeRequest';
 import { getUserToken } from '../../helpers/userData';
 import { ICourse, INewCourse } from '../../models/Course';
-import { courseAdded, courseDeleted, coursesLoaded } from './coursesActions';
+import {
+  courseAdded,
+  courseDeleted,
+  coursesLoaded,
+  courseUpdated,
+} from './coursesActions';
 
 interface ICoursesResponse {
   successful: boolean;
@@ -40,7 +41,7 @@ export const loadCourses =
 
 export const deleteCourse = (courseId: string) => async (dispatch: any) => {
   const token = getUserToken();
-  makeRequest<ICourseDeleteResponse>(DELETE_COURSE_URL(courseId), {
+  makeRequest<ICourseDeleteResponse>(COURSE_URL(courseId), {
     method: 'DELETE',
     headers: {
       Authorization: token || '',
@@ -67,3 +68,22 @@ export const createCourse = (course: INewCourse) => async (dispatch: any) => {
     }
   });
 };
+
+export const updateCourse =
+  (course: INewCourse, id?: string) => async (dispatch: any) => {
+    const token = getUserToken();
+    if (token && id) {
+      makeRequest<ICourseCreateResponse>(COURSE_URL(id), {
+        method: 'PUT',
+        headers: {
+          Authorization: token || '',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(course),
+      }).then((resp) => {
+        if (resp.successful) {
+          dispatch(courseUpdated(resp.result));
+        }
+      });
+    }
+  };

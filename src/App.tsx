@@ -22,6 +22,7 @@ import { selectUser } from './store/user/userSelector';
 import { useUser } from './hooks/useUser';
 import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
+import { UpdateCourse } from './components/UpdateCourse/UpdateCourse';
 
 function App() {
   const store = useMemo(() => {
@@ -57,6 +58,14 @@ function AppInner() {
                 element={
                   <PrivateRouter>
                     <CreateCourse />
+                  </PrivateRouter>
+                }
+              />
+              <Route
+                path={ROUTES.updateCourse}
+                element={
+                  <PrivateRouter>
+                    <UpdateCourse />
                   </PrivateRouter>
                 }
               />

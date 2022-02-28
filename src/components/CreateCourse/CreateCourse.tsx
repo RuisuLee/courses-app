@@ -9,12 +9,12 @@ import { ROUTES } from '../../constants';
 import {
   CreateCourseForm,
   ICreateCourseFormValues,
-} from './components/CreateCourseForm/CreateCourseForm';
+} from './components/CreateCourseForm/CourseForm';
 
 import './CreateCourse.scss';
 import { createCourse } from '../../store/courses/thunk';
 
-const CreateCourseFormSchema = Yup.object().shape({
+export const CourseFormSchema = Yup.object().shape({
   titleInput: Yup.string()
     .min(2, 'Title should contain at least 2 symbols!')
     .required('Title field is required!'),
@@ -64,7 +64,7 @@ export function CreateCourse() {
     <Formik
       initialValues={init}
       onSubmit={onSubmit}
-      validationSchema={CreateCourseFormSchema}
+      validationSchema={CourseFormSchema}
     >
       {(props) => <CreateCourseForm {...props} />}
     </Formik>
