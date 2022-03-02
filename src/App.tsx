@@ -39,8 +39,8 @@ function App() {
 }
 
 function AppInner() {
-  const user = useSelector(selectUser);
-  const loading = useUser();
+  const { loading, user } = useUser();
+
   return (
     <Router>
       <Header />

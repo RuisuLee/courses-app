@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { useCourse } from '../../hooks/useCourse';
-import { INewCourse } from '../../models/Course';
+import { IUpdatedCourse } from '../../models/Course';
 import { updateCourse } from '../../store/courses/thunk';
 import {
   CreateCourseForm,
@@ -18,10 +18,9 @@ export function UpdateCourse() {
   const dispatch = useDispatch();
 
   const onSubmit = (inputCourse: ICreateCourseFormValues) => {
-    const course: INewCourse = {
+    const course: IUpdatedCourse = {
       title: inputCourse.titleInput,
       description: inputCourse.description,
-      creationDate: new Date().toISOString(),
       duration: parseInt(inputCourse.duration),
       authors: inputCourse.authors.map((author) => {
         return author.id;

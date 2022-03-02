@@ -1,11 +1,16 @@
 import { USER_INFO } from '../constants';
 
+export enum UserRole {
+  admin = 'admin',
+  user = 'user',
+}
+
 export interface IUser {
   name: string;
   isAuth: boolean;
   email: string;
   token: string;
-  role: string;
+  role: UserRole;
 }
 
 export function putUserToken(token: string) {

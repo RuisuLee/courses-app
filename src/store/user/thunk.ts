@@ -26,12 +26,8 @@ export const loginUser = (token: string) => async (dispatch: any) => {
   });
 };
 
-export const loadUser = () => async (dispatch: any) => {
-  const token = getUserToken();
-
-  if (token) {
-    dispatch(loginUser(token));
-  }
+export const loadUser = (token: string) => async (dispatch: any) => {
+  dispatch(loginUser(token));
 };
 
 export const logoutUser = () => async (dispatch: any) => {

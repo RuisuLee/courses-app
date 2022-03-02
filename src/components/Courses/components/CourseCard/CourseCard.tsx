@@ -13,7 +13,6 @@ import {
 import { getAuthors } from '../../../../helpers/authors';
 import { getFormattedDate } from '../../../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../../../helpers/pipeDuration';
-import { useAuthors } from '../../../../hooks/useAuthors';
 
 import { ICourse } from '../../../../models/Course';
 import { selectAuthors } from '../../../../store/authors/authorsSelector';
@@ -21,19 +20,17 @@ import { selectAuthors } from '../../../../store/authors/authorsSelector';
 import './CourseCard.scss';
 import { selectUser } from '../../../../store/user/userSelector';
 import { deleteCourse } from '../../../../store/courses/thunk';
+import { UserRole } from '../../../../helpers/userData';
 
 interface ICourseProps {
   course: ICourse;
 }
 
 export function CourseCard({ course }: ICourseProps) {
-  useAuthors();
   const navigate = useNavigate();
   const authors = useSelector(selectAuthors);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-
-  const editCourse = () => {};
 
   const deleteCourseHandler = (id: string) => {
     dispatch(deleteCourse(id));
@@ -72,7 +69,7 @@ export function CourseCard({ course }: ICourseProps) {
               navigate(path);
             }}
           />
-          {user?.role === 'admin' ? (
+          {user?.role === UserRole.admin ? (
             <>
               <Button
                 className='course-card__edit-button'

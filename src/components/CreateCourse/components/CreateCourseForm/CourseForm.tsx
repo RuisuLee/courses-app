@@ -25,7 +25,6 @@ import {
   DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../../../constants';
 import { getFormattedDuration } from '../../../../helpers/pipeDuration';
-import { useAuthors } from '../../../../hooks/useAuthors';
 import { IAuthor } from '../../../../models/Author';
 import { selectAuthors } from '../../../../store/authors/authorsSelector';
 import { addAuthor } from '../../../../store/authors/thunk';
@@ -46,7 +45,6 @@ const AuthorNameValidationSchema = Yup.object().shape({
 });
 
 export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
-  useAuthors();
   const dispatch = useDispatch();
   const authors = useSelector(selectAuthors);
   const [authorsField] = useField<Array<IAuthor>>('authors');

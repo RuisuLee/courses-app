@@ -1,7 +1,7 @@
 import { COURSES_URL, CREATE_COURSE_URL, COURSE_URL } from '../../constants';
 import { makeRequest } from '../../helpers/makeRequest';
 import { getUserToken } from '../../helpers/userData';
-import { ICourse, INewCourse } from '../../models/Course';
+import { ICourse, INewCourse, IUpdatedCourse } from '../../models/Course';
 import {
   courseAdded,
   courseDeleted,
@@ -70,7 +70,7 @@ export const createCourse = (course: INewCourse) => async (dispatch: any) => {
 };
 
 export const updateCourse =
-  (course: INewCourse, id?: string) => async (dispatch: any) => {
+  (course: IUpdatedCourse, id?: string) => async (dispatch: any) => {
     const token = getUserToken();
     if (token && id) {
       makeRequest<ICourseCreateResponse>(COURSE_URL(id), {

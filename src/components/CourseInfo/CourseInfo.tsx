@@ -6,7 +6,6 @@ import { ROUTES } from '../../constants';
 import { getAuthors } from '../../helpers/authors';
 import { getFormattedDate } from '../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../helpers/pipeDuration';
-import { useAuthors } from '../../hooks/useAuthors';
 import { ICourse } from '../../models/Course';
 import { selectAuthors } from '../../store/authors/authorsSelector';
 
@@ -31,7 +30,6 @@ export function CourseInfo() {
   const courses = useSelector(selectCourses);
   const authors = useSelector(selectAuthors);
 
-  useAuthors();
   useEffect(() => {
     const findedCourse = courses?.find((course) => course.id === courseId);
     if (findedCourse) {
