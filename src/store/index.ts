@@ -1,12 +1,13 @@
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import { authorsReducer } from './authors/authorsReducer';
-import { coursesReducer } from './courses/coursesReducer';
+import { coursesReducer, singleCourse } from './courses/coursesReducer';
 import { userReducer } from './user/userReducer';
 import ReduxThunk from 'redux-thunk';
 
 export const rootReducer = combineReducers({
   user: userReducer,
   courses: coursesReducer,
+  course: singleCourse,
   authors: authorsReducer,
 });
 

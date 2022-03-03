@@ -7,6 +7,7 @@ import {
   courseDeleted,
   coursesLoaded,
   courseUpdated,
+  setSingleCourse,
 } from './coursesActions';
 
 interface ICoursesResponse {
@@ -20,6 +21,11 @@ interface ICourseDeleteResponse {
 }
 
 interface ICourseCreateResponse {
+  successful: boolean;
+  result: ICourse;
+}
+
+interface ICourseResponse {
   successful: boolean;
   result: ICourse;
 }
@@ -87,3 +93,18 @@ export const updateCourse =
       });
     }
   };
+
+export const loadCourse = (id?: string) => async (dispatch: any) => {
+  const token = getUserToken();
+  if (token && id) {
+    makeRequest<ICourseResponse>(COURSE_URL(id), {
+      headers: {
+        Authorization: token || '',
+      },
+    }).then((resp) => {
+      if (resp.successful) {
+        dispatch(setSingleCourse(resp.result));
+      }
+    });
+  }
+};

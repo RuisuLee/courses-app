@@ -1,4 +1,4 @@
-import { useNavigate, generatePath } from 'react-router-dom';
+import { useNavigate, generatePath, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../../../../common/Button/Button';
 
@@ -71,17 +71,12 @@ export function CourseCard({ course }: ICourseProps) {
           />
           {user?.role === UserRole.admin ? (
             <>
-              <Button
+              <Link
                 className='course-card__edit-button'
-                buttonText=''
-                buttonType='button'
-                onClick={() => {
-                  const path = generatePath(ROUTES.updateCourse, {
-                    courseId: course.id,
-                  });
-                  navigate(path);
-                }}
-              />
+                to={generatePath(ROUTES.updateCourse, {
+                  courseId: course.id,
+                })}
+              ></Link>
               <Button
                 className='course-card__delete-button'
                 buttonText=''
