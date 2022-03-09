@@ -7,6 +7,6 @@ import './Logo.scss';
 
 export const Logo = () => (
   <Link to={ROUTES.default}>
-    <img className='logo' src={courses} />
+    <img className='logo' src={courses} data-testid='logo' />
   </Link>
 );

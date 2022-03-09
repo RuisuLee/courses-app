@@ -8,7 +8,6 @@ import { Logo } from './components/Logo/Logo';
 import { LOGOUT_BUTTON_TEXT, ROUTES } from '../../constants';
 
 import './Header.scss';
-import { logout } from '../../store/user/userActions';
 import { clearUserToken } from '../../helpers/userData';
 import { logoutUser } from '../../store/user/thunk';
 
@@ -28,7 +27,9 @@ export function Header() {
       <Logo />
       {user ? (
         <div className='user-bar'>
-          <div className='user-bar__username'>{user.name}</div>
+          <div className='user-bar__username' data-testid='username'>
+            {user.name}
+          </div>
           <Button
             className='user-bar__button'
             buttonText={LOGOUT_BUTTON_TEXT}
