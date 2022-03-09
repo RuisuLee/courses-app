@@ -10,7 +10,16 @@ const mockedState = {
     isAuth: true,
     name: 'Test Name',
   },
-  courses: [],
+  courses: [
+    {
+      id: 'mock-id',
+      title: 'mock title',
+      description: 'mock description',
+      creationDate: '28/02/2022',
+      duration: 40,
+      authors: ['mock author id'],
+    },
+  ],
   authors: [
     {
       id: 'mock author id',
@@ -24,10 +33,10 @@ const mockedStore: any = {
   dispatch: jest.fn(),
 };
 
-export function renderApp(ui: JSX.Element) {
+export function renderApp(ui: JSX.Element, store = mockedStore) {
   return render(
     <HistoryRouter history={history}>
-      <Provider store={mockedStore}>{ui}</Provider>
+      <Provider store={store}>{ui}</Provider>
     </HistoryRouter>
   );
 }

@@ -37,7 +37,7 @@ export function CourseCard({ course }: ICourseProps) {
   };
 
   return (
-    <div className='course-card'>
+    <div className='course-card' data-testid='courseCard'>
       <section className='course-card__title-section'>
         <h2 data-testid='title'>{course.title}</h2>
         <p data-testid='description'>{course.description}</p>
