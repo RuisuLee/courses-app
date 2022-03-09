@@ -1,21 +1,20 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { ICourse } from '../../models/Course';
-import { v4 as uuidv4 } from 'uuid';
+import { INewCourse } from '../../models/Course';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { courseAdded } from '../../store/courses/coursesActions';
 import { ROUTES } from '../../constants';
 
 import {
   CreateCourseForm,
   ICreateCourseFormValues,
-} from './components/CreateCourseForm/CreateCourseForm';
+} from './components/CreateCourseForm/CourseForm';
 
 import './CreateCourse.scss';
+import { createCourse } from '../../store/courses/thunk';
 
-const CreateCourseFormSchema = Yup.object().shape({
+export const CourseFormSchema = Yup.object().shape({
   titleInput: Yup.string()
     .min(2, 'Title should contain at least 2 symbols!')
     .required('Title field is required!'),
@@ -47,17 +46,16 @@ export function CreateCourse() {
   const dispatch = useDispatch();
 
   const onSubmit = (inputCourse: ICreateCourseFormValues) => {
-    const course: ICourse = {
-      id: uuidv4(),
-      creationDate: new Date().toLocaleDateString('en-US'),
+    const course: INewCourse = {
       title: inputCourse.titleInput,
       description: inputCourse.description,
+      creationDate: new Date().toISOString(),
       duration: parseInt(inputCourse.duration),
       authors: inputCourse.authors.map((author) => {
         return author.id;
       }),
     };
-    dispatch(courseAdded(course));
+    dispatch(createCourse(course));
 
     navigate(ROUTES.courses);
   };
@@ -66,7 +64,7 @@ export function CreateCourse() {
     <Formik
       initialValues={init}
       onSubmit={onSubmit}
-      validationSchema={CreateCourseFormSchema}
+      validationSchema={CourseFormSchema}
     >
       {(props) => <CreateCourseForm {...props} />}
     </Formik>

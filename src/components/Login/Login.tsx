@@ -13,6 +13,7 @@ import { IUser, putUserToken } from '../../helpers/userData';
 
 import './Login.scss';
 import { login } from '../../store/user/userActions';
+import { loginUser } from '../../store/user/thunk';
 
 interface ILoginData {
   email: string;
@@ -56,14 +57,8 @@ export function Login() {
 
     const response = await makeRequest<ILoginResponse>(LOGIN_URL, options);
     if (response.successful) {
-      const user: IUser = {
-        name: response.user.name,
-        token: response.result,
-        isAuth: true,
-        email: response.user.email,
-      };
-      dispatch(login(user));
-      putUserToken(user);
+      dispatch(loginUser(response.result));
+      putUserToken(response.result);
       navigate(ROUTES.courses);
     } else {
       if (response.result) {

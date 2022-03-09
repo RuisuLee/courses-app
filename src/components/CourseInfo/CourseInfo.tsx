@@ -1,53 +1,50 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTES } from '../../constants';
 import { getAuthors } from '../../helpers/authors';
 import { getFormattedDate } from '../../helpers/dateGenerator';
 import { getFormattedDuration } from '../../helpers/pipeDuration';
-import { useAuthors } from '../../hooks/useAuthors';
-import { ICourse } from '../../models/Course';
 import { selectAuthors } from '../../store/authors/authorsSelector';
 
 import './CourseInfo.scss';
-import { selectCourses } from '../../store/courses/coursesSelector';
-
-const defauldCourse: ICourse = {
-  id: '',
-  title: '',
-  description: '',
-  duration: 0,
-  creationDate: '',
-  authors: [],
-};
+import {
+  selectCourse,
+  selectCourses,
+} from '../../store/courses/coursesSelector';
+import { setSingleCourse } from '../../store/courses/coursesActions';
+import { loadCourse } from '../../store/courses/thunk';
 
 export function CourseInfo() {
   const { courseId } = useParams();
 
-  const [course, setCourse] = useState<ICourse>(defauldCourse);
-  const [noCourseError, setNoCourseError] = useState<string>('');
+  const dispatch = useDispatch();
 
+  const course = useSelector(selectCourse);
   const courses = useSelector(selectCourses);
   const authors = useSelector(selectAuthors);
 
-  useAuthors();
   useEffect(() => {
-    const findedCourse = courses?.find((course) => course.id === courseId);
-    if (findedCourse) {
-      setCourse(findedCourse);
+    const foundCourse = courses?.find((course) => course.id === courseId);
+    if (foundCourse) {
+      dispatch(setSingleCourse(foundCourse));
     } else {
-      setNoCourseError('No such course');
+      dispatch(loadCourse(courseId));
     }
-  }, [courseId]);
+
+    return () => {
+      dispatch(setSingleCourse(null));
+    };
+  }, [dispatch, courseId]);
 
   return (
     <div className='course-info'>
       <header className='course-info__back'>
         <Link to={ROUTES.courses}>{'< Back to courses'}</Link>
       </header>
-      {noCourseError ? (
-        <h1>{noCourseError}</h1>
+      {!course ? (
+        <h1>No such course</h1>
       ) : (
         <>
           <h1 className='course-info__title'>{course.title}</h1>

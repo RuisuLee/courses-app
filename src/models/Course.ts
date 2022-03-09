@@ -6,3 +6,18 @@ export interface ICourse {
   duration: number;
   authors: Array<string>;
 }
+
+export interface INewCourse {
+  title: string;
+  description: string;
+  creationDate: string;
+  duration: number;
+  authors: Array<string>;
+}
+
+export interface IUpdatedCourse {
+  title: string;
+  description: string;
+  duration: number;
+  authors: Array<string>;
+}

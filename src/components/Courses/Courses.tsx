@@ -13,16 +13,21 @@ import { useCourses } from '../../hooks/useCourses';
 import { useEffect, useState } from 'react';
 import { ICourse } from '../../models/Course';
 import { isSubStrInString } from '../../helpers/common';
+import { selectUser } from '../../store/user/userSelector';
+import { useAuthors } from '../../hooks/useAuthors';
+import { UserRole } from '../../helpers/userData';
 
 export function Courses() {
+  useAuthors();
   const loading = useCourses();
   const navigate = useNavigate();
   const storeCourses = useSelector(selectCourses);
+  const user = useSelector(selectUser);
   const [courses, setCourses] = useState<Array<ICourse> | null>(storeCourses);
 
   useEffect(() => {
     setCourses(storeCourses);
-  }, [storeCourses]);
+  }, [storeCourses, user]);
 
   function onSearch(value: string) {
     if (!value) {
@@ -47,14 +52,16 @@ export function Courses() {
     <section className='courses'>
       <nav className='search-bar'>
         <SearchBar search={onSearch} />
-        <Button
-          className='search-bar__button'
-          buttonText={ADD_NEW_COURSE_BUTTON_TEXT}
-          buttonType='button'
-          onClick={() => {
-            navigate(ROUTES.addCourse);
-          }}
-        />
+        {user?.role === UserRole.admin ? (
+          <Button
+            className='search-bar__button'
+            buttonText={ADD_NEW_COURSE_BUTTON_TEXT}
+            buttonType='button'
+            onClick={() => {
+              navigate(ROUTES.addCourse);
+            }}
+          />
+        ) : null}
       </nav>
       {loading ? (
         <h1>Loading...</h1>

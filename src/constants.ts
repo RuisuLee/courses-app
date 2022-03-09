@@ -35,6 +35,10 @@ export const LOGIN_URL = API_HOST + '/login';
 export const COURSES_URL = API_HOST + '/courses/all';
 export const USER = API_HOST + '/users/me';
 export const AUTHORS_URL = API_HOST + '/authors/all';
+export const LOGOUT_URL = API_HOST + '/logout';
+export const COURSE_URL = (id: string) => `${API_HOST}/courses/${id}`;
+export const CREATE_COURSE_URL = API_HOST + '/courses/add';
+export const CREATE_AUTHOR_URL = API_HOST + '/authors/add';
 
 export const ROUTES = {
   default: '/',
@@ -43,6 +47,7 @@ export const ROUTES = {
   courses: '/courses',
   course: '/courses/:courseId',
   addCourse: '/courses/add',
+  updateCourse: '/courses/update/:courseId',
 };
 
 export const USER_INFO = {

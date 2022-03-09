@@ -10,6 +10,7 @@ import { LOGOUT_BUTTON_TEXT, ROUTES } from '../../constants';
 import './Header.scss';
 import { logout } from '../../store/user/userActions';
 import { clearUserToken } from '../../helpers/userData';
+import { logoutUser } from '../../store/user/thunk';
 
 export function Header() {
   const user = useSelector(selectUser);
@@ -17,7 +18,7 @@ export function Header() {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    dispatch(logout(user));
+    dispatch(logoutUser());
     clearUserToken();
     navigate(ROUTES.login);
   };

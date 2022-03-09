@@ -1,6 +1,5 @@
 import { Formik, FormikProps, useField } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
 
 import { Button } from '../../../../common/Button/Button';
@@ -26,10 +25,9 @@ import {
   DELETE_AUTHOR_BUTTON_TEXT,
 } from '../../../../constants';
 import { getFormattedDuration } from '../../../../helpers/pipeDuration';
-import { useAuthors } from '../../../../hooks/useAuthors';
 import { IAuthor } from '../../../../models/Author';
-import { authorAdded } from '../../../../store/authors/authorsActions';
 import { selectAuthors } from '../../../../store/authors/authorsSelector';
+import { addAuthor } from '../../../../store/authors/thunk';
 
 import '../../CreateCourse.scss';
 
@@ -47,7 +45,6 @@ const AuthorNameValidationSchema = Yup.object().shape({
 });
 
 export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
-  useAuthors();
   const dispatch = useDispatch();
   const authors = useSelector(selectAuthors);
   const [authorsField] = useField<Array<IAuthor>>('authors');
@@ -64,12 +61,7 @@ export function CreateCourseForm(props: FormikProps<ICreateCourseFormValues>) {
   const createAuthor = (values: any) => {
     if (!values.authorName) return;
 
-    const author: IAuthor = {
-      id: uuidv4(),
-      name: values.authorName,
-    };
-
-    dispatch(authorAdded(author));
+    dispatch(addAuthor(values.authorName));
   };
 
   const addAuhorToCourseAuthors = (author: IAuthor) => {
