@@ -1,4 +1,4 @@
-import { renderApp } from '../../../helpers/testUtils';
+import { mockedState, renderApp } from '../../../helpers/testUtils';
 import { screen } from '@testing-library/react';
 import { Courses } from '../Courses';
 import userEvent from '@testing-library/user-event';
@@ -7,7 +7,9 @@ import { ADD_NEW_COURSE_BUTTON_TEXT, ROUTES } from '../../../constants';
 describe('Courses tests  ', () => {
   it('Should display amount of CourseCard equal length of courses array', () => {
     renderApp(<Courses />);
-    expect(screen.getAllByTestId('courseCard').length).toEqual(1);
+    expect(screen.getAllByTestId('courseCard').length).toEqual(
+      mockedState.courses.length
+    );
   });
 
   it('Should display Empty container if courses array length is 0', () => {

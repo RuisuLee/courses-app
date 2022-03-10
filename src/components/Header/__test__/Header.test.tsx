@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { Header } from '../Header';
-import { renderApp } from '../../../helpers/testUtils';
+import { mockedState, renderApp } from '../../../helpers/testUtils';
 
 describe('Header tests  ', () => {
   beforeEach(() => {
@@ -12,6 +12,8 @@ describe('Header tests  ', () => {
   });
 
   it('Should render username', () => {
-    expect(screen.getByTestId('username').textContent).toEqual('Test Name');
+    expect(screen.getByTestId('username').textContent).toEqual(
+      mockedState.user.name
+    );
   });
 });

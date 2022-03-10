@@ -1,6 +1,7 @@
-import { renderApp } from '../../../../../helpers/testUtils';
+import { mockedState, renderApp } from '../../../../../helpers/testUtils';
 import { CourseCard } from '../CourseCard';
 import { screen } from '@testing-library/react';
+import { getFormattedDate } from '../../../../../helpers/dateGenerator';
 
 const mockCourse = {
   id: 'mock-id',
@@ -32,13 +33,13 @@ describe('Course Card tests  ', () => {
 
   it('Should display authors list', () => {
     expect(screen.getByTestId('authors').textContent).toEqual(
-      'mock author name'
+      mockedState.authors[0].name
     );
   });
 
   it('Should display created date in the correct format', () => {
     expect(screen.getByTestId('creationDate').textContent).toEqual(
-      '28.02.2022'
+      getFormattedDate(mockCourse.creationDate)
     );
   });
 });

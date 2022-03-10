@@ -48,7 +48,7 @@
     "eslint:fix": "eslint --fix --ext .ts --ext .tsx src",
     "test:nowatch": "react-scripts test --watchAll=false",
     "prepare": "husky install",
-    "prepublish": "npm run eslint:fix && npm run test:nowatch"
+    "prepublishOnly": "npm run eslint:fix && npm run test:nowatch"
   },
   "eslintConfig": {
     "extends": [

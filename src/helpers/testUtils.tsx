@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 const history = createBrowserHistory();
 
-const mockedState = {
+export const mockedState = {
   user: {
     isAuth: true,
     name: 'Test Name',
@@ -27,7 +27,7 @@ const mockedState = {
     },
   ],
 };
-const mockedStore: any = {
+export const mockedStore: any = {
   getState: () => mockedState,
   subscribe: jest.fn(),
   dispatch: jest.fn(),
