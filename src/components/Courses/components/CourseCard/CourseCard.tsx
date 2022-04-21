@@ -37,24 +37,30 @@ export function CourseCard({ course }: ICourseProps) {
   };
 
   return (
-    <div className='course-card'>
+    <div className='course-card' data-testid='courseCard'>
       <section className='course-card__title-section'>
-        <h2>{course.title}</h2>
-        <p>{course.description}</p>
+        <h2 data-testid='title'>{course.title}</h2>
+        <p data-testid='description'>{course.description}</p>
       </section>
       <section className='course-card__additional-info'>
         <div className='course-card__additional-info-content'>
           <span className='course-card__authors'>
             <b>{COURSE_CARD_AUTHORS}</b>
-            {getAuthors(course.authors, authors)}
+            <span data-testid='authors'>
+              {getAuthors(course.authors, authors)}
+            </span>
           </span>
           <span>
             <b>{COURSE_CARD_DURATION}</b>
-            {getFormattedDuration(course.duration)}
+            <span data-testid='duration'>
+              {getFormattedDuration(course.duration)}
+            </span>
           </span>
           <span>
             <b>{COURSE_CARD_CREATED}</b>
-            {getFormattedDate(course.creationDate)}
+            <span data-testid='creationDate'>
+              {getFormattedDate(course.creationDate)}
+            </span>
           </span>
         </div>
         <div className='course-card__buttons-wrapper'>

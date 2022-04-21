@@ -67,12 +67,12 @@ export function Courses() {
         <h1>Loading...</h1>
       ) : (
         <main>
-          {courses ? (
+          {courses && courses?.length > 0 ? (
             courses.map((course) => (
               <CourseCard key={course.id} course={course} />
             ))
           ) : (
-            <h1>No active courses found</h1>
+            <h1 data-testid='noCourses'>No active courses found</h1>
           )}
         </main>
       )}

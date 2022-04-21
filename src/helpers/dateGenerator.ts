@@ -1,4 +1,4 @@
 export const getFormattedDate = (inputDate: string): string => {
-  const formattedDate = inputDate.replaceAll('/', '.');
+  const formattedDate = inputDate.replace(/\//g, '.');
   return formattedDate;
 };

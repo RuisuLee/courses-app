@@ -5,7 +5,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { useMemo } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 
 import { Courses } from './components/Courses/Courses';
 import { ErrorPage } from './components/ErrorPage/ErrorPage';
@@ -18,7 +18,6 @@ import './App.scss';
 
 import { ROUTES } from './constants';
 import { configureStore } from './store';
-import { selectUser } from './store/user/userSelector';
 import { useUser } from './hooks/useUser';
 import { PrivateRouter } from './components/PrivateRouter/PrivateRouter';
 import { CreateCourse } from './components/CreateCourse/CreateCourse';
